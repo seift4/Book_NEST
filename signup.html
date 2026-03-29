@@ -4,6 +4,8 @@
 <html>
     <head>
         <title> Sign-up </title>
+        <link rel="stylesheet" href="style1.css">
+        <script src="authScript.js"></script>
     </head>
 
     <body>
@@ -16,7 +18,7 @@
     </ul>
     <hr>
 </nav>
-        <form>
+        <form onsubmit="return checkPass()" onreset="removeError()">
             <div>
                 <label for="username"> Username: </label>
                 <input type="text" id="username" name="username" placeholder="username" maxlength="10" required>
@@ -25,15 +27,15 @@
             <br>
 
             <div>
-                <label for="password"> Password: </label>
-                <input type="password" id="password" name="password" placeholder="password" maxlength="10" required>
+                <label for="pass"> Password: </label>
+                <input type="password" id="pass" name="password" placeholder="password" maxlength="10" required>
             </div>
 
             <br>
             
             <div>
-                <label for="confirmPassword"> Confirm Password: </label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="confirm password" maxlength="10" required>
+                <label for="confirmPass"> Confirm Password: </label>
+                <input type="password" id="confirmPass" name="confirmPassword" placeholder="confirm password" maxlength="10" required>
             </div>
 
         
@@ -59,8 +61,14 @@
 
             <br> 
 
-            <button type="reset"> Reset </button>
-            <button type="submit"> Signup </button>
+            <button id="reset" type="reset"> Reset </button>
+            <button id="submit" type="submit"> Signup </button>
+
+            <p id="error">
+                <span id="errorMark"> ! </span>
+                Passwords do not match!
+            </p>
         </form>
+    
     </body>
 </html>

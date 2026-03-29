@@ -1,0 +1,66 @@
+nav{
+    text-align: center;
+}
+
+ul li{
+    display: inline-block;
+    padding: 5px;
+}
+
+h1{
+    text-align: center;
+    font-family: 'Sora', sans-serif;
+    text-decoration: underline;
+}
+
+form {
+    width: 400px;
+    margin: auto;
+    background-color: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+label{
+    text-align: right;
+}
+
+input, select, textarea{
+    width: 90%;
+    border-radius: 5px;
+    border-style: none none solid none;
+    border-color: rgba(0, 0, 0, 0.3); 
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(30,58,138,0.3);
+}
+
+#reset{
+    background-color: lightgray;
+}
+
+#submit{
+    background-color:#4A90E2;
+}
+
+button:hover {
+    opacity: 0.80;
+    text-decoration: underline;
+}
+
+button{
+    width: 60px;
+    height: 30px;
+    border-radius: 10px;
+}
+.buttons {
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-align: center;   
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    
+}
