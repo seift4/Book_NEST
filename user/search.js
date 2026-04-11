@@ -1,38 +1,36 @@
-// ------------------------------------------------------------
-// بيانات الكتب (تم تخزينها هنا عشان ميبقاش في hard coded values)
-// ------------------------------------------------------------
+
 var booksDatabase = [
     {
         id: 1,
         title: "The Great Gatsby",
         author: "F. Scott Fitzgerald",
         category: "Classic",
-        status: "Available"
+        status: "Available",
+        coverImage: "The_Great_Gatsby_Cover_1925_Retouched.jpg",
+        description: "The Great Gatsby (1925) by F. Scott Fitzgerald is a classic American novel set in the Roaring Twenties. Narrated by Nick Carraway, it explores themes of love, obsession, and the corruption of the American Dream as mysterious millionaire Jay Gatsby tries to win back his former love, Daisy Buchanan, amid the decadence of Long Island."
     },
     {
         id: 2,
         title: "Clean Code",
         author: "Robert C. Martin",
         category: "Programming",
-        status: "Borrowed"
+        status: "Borrowed",
+        coverImage: "71nj3JM-igL._AC_UF1000,1000_QL80_.jpg",
+        description: "A foundational programming book that teaches developers how to write, read, and clean code. It highlights that 'clean' code is readable, simple, maintainable, and efficient, helping developers avoid the technical debt and failure caused by poorly written software"
     },
     {
         id: 3,
-        title: "Harry Potter",
+        title: "Harry Potter and the Philosopher's Stone",
         author: "J.K. Rowling",
         category: "Fantasy",
-        status: "Available"
+        status: "Available",
+        coverImage: "9781408855652.jpg",
+        description: "Harry Potter and the Philosopher's Stone (1997) by J.K. Rowling is a fantasy novel introducing an orphaned boy who discovers on his eleventh birthday that he is a wizard. Harry escapes his abusive aunt and uncle to attend Hogwarts School of Witchcraft and Wizardry, making friends (Ron and Hermione) and uncovering a plot to steal an ancient stone."
     }
 ];
 
-// ------------------------------------------------------------
-// سجل البحث (بيتخزن في localStorage)
-// ------------------------------------------------------------
 var searchHistory = [];
 
-// ------------------------------------------------------------
-// لما الصفحة تفتح، ننفذ الكود ده
-// ------------------------------------------------------------
 window.onload = function() {
     loadHistory();
     displayAllBooks();
@@ -43,45 +41,31 @@ window.onload = function() {
     }
 };
 
-// ------------------------------------------------------------
-// عرض كل الكتب (لما الصفحة تفتح أول مرة)
-// ------------------------------------------------------------
 function displayAllBooks() {
     displayResults(booksDatabase, "", "All");
 }
 
-// ------------------------------------------------------------
-// دالة البحث الرئيسية
-// ------------------------------------------------------------
 function handleSearch(event) {
-    event.preventDefault(); // منع إعادة تحميل الصفحة
-    
-    // 1. نجيب النص اللي كتبه المستخدم
+    event.preventDefault(); 
     var searchTerm = document.getElementById("searchInput").value;
     
-    // 2. VALIDATION: نتأكد إنه مش فاضي
     if (searchTerm === "" || searchTerm.trim() === "") {
         showMessage("Please enter a search term!", "error");
         return false;
     }
     
-    // 3. نجيب نوع البحث (All, Title, Author, Category)
     var searchType = getSelectedSearchType();
     
-    // 4. ننفذ البحث
     performSearch(searchTerm, searchType);
     
     return true;
 }
 
-// ------------------------------------------------------------
-// دالة تنفيذ البحث الفعلية
-// ------------------------------------------------------------
 function performSearch(searchTerm, searchType) {
     var filteredBooks = [];
     var lowerTerm = searchTerm.toLowerCase();
     
-    // تصفية الكتب حسب نوع البحث
+
     for (var i = 0; i < booksDatabase.length; i++) {
         var book = booksDatabase[i];
         
@@ -109,28 +93,22 @@ function performSearch(searchTerm, searchType) {
         }
     }
     
-    // حفظ البحث في السجل
     addToHistory(searchTerm, searchType);
     
-    // عرض النتائج
     displayResults(filteredBooks, searchTerm, searchType);
     
-    // لو مفيش نتائج، نعرض رسالة
     if (filteredBooks.length === 0) {
         showMessage("No books found for '" + searchTerm + "'", "error");
     }
 }
 
-// ------------------------------------------------------------
-// دالة لعرض النتائج على الصفحة
-// ------------------------------------------------------------
 function displayResults(books, searchTerm, searchType) {
     var container = document.getElementById("resultsContainer");
     var statsDiv = document.getElementById("searchStats");
     
     if (!container) return;
     
-    // تحديث إحصائية البحث
+    
     if (statsDiv) {
         if (searchTerm === "") {
             statsDiv.innerHTML = "Showing all " + books.length + " books";
@@ -139,13 +117,11 @@ function displayResults(books, searchTerm, searchType) {
         }
     }
     
-    // لو مفيش كتب
     if (books.length === 0) {
         container.innerHTML = "<p style='color:gray;'>No books to display</p>";
         return;
     }
     
-    // بناء HTML لكل كتاب
     var htmlContent = "";
     for (var i = 0; i < books.length; i++) {
         var book = books[i];
@@ -157,7 +133,7 @@ function displayResults(books, searchTerm, searchType) {
                 <p><b>Author:</b> ${book.author}</p>
                 <p><b>Category:</b> ${book.category}</p>
                 <p><b>Status:</b> <span class="${statusClass}">${book.status}</span></p>
-                <a href="book_details.html?id=${book.id}">View Details →</a>
+                <button onclick="viewBook(${i})">View Details</button>
             </div>
         `;
     }
@@ -165,9 +141,6 @@ function displayResults(books, searchTerm, searchType) {
     container.innerHTML = htmlContent;
 }
 
-// ------------------------------------------------------------
-// دالة لمعرفة نوع البحث المختار من الراديو
-// ------------------------------------------------------------
 function getSelectedSearchType() {
     var radios = document.getElementsByName("search_by");
     
@@ -183,9 +156,6 @@ function getSelectedSearchType() {
     return "All"; // default
 }
 
-// ------------------------------------------------------------
-// دالة لإظهار رسائل (خطأ أو تأكيد)
-// ------------------------------------------------------------
 function showMessage(message, type) {
     var alertDiv = document.getElementById("alertMessage");
     if (!alertDiv) return;
@@ -199,11 +169,6 @@ function showMessage(message, type) {
     }, 3000);
 }
 
-// ------------------------------------------------------------
-// دوال سجل البحث (Search History) باستخدام localStorage
-// ------------------------------------------------------------
-
-// إضافة بحث جديد للسجل
 function addToHistory(term, type) {
     if (term === "") return;
     
@@ -213,22 +178,19 @@ function addToHistory(term, type) {
         date: new Date().toLocaleString()
     };
     
-    // نضيف في البداية
+    
     searchHistory.unshift(searchRecord);
     
-    // نخلي آخر 5 بس
+
     if (searchHistory.length > 5) {
         searchHistory.pop();
     }
     
-    // نحفظ في localStorage
     localStorage.setItem("mySearchHistory", JSON.stringify(searchHistory));
     
-    // نعرض السجل المحدث
     displayHistory();
 }
 
-// تحميل السجل من localStorage
 function loadHistory() {
     var saved = localStorage.getItem("mySearchHistory");
     if (saved) {
@@ -237,7 +199,6 @@ function loadHistory() {
     }
 }
 
-// عرض السجل على الصفحة
 function displayHistory() {
     var historyDiv = document.getElementById("historyList");
     if (!historyDiv) return;
@@ -258,11 +219,10 @@ function displayHistory() {
     historyDiv.innerHTML = html;
 }
 
-// تكرار بحث قديم (لما المستخدم يدوس على حاجة من السجل)
 function repeatSearch(term, type) {
     document.getElementById("searchInput").value = term;
     
-    // نحدد الراديو المناسب
+    
     var radios = document.getElementsByName("search_by");
     var typeMap = {"All":0, "Title":1, "Author":2, "Category":3};
     var index = typeMap[type];
@@ -270,6 +230,11 @@ function repeatSearch(term, type) {
         radios[index].checked = true;
     }
     
-    // ننفذ البحث
     performSearch(term, type);
+}
+
+function viewBook(index) {
+    const book = booksDatabase[index];
+    localStorage.setItem('selectedBook', JSON.stringify(book)); // Save book as a string
+    window.location.href = 'book_details.html';
 }

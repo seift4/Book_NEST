@@ -5,6 +5,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Borrowed Books</title>
+        <link href="https://googleapis.com" rel="stylesheet">
+        <link rel="stylesheet" href="bookstyle.css">
     </head>
 
     <body>
@@ -15,7 +17,6 @@
  
     <a href="user_home.html"><li>Home</li></a> 
     <a href="search.html"><li>Search Books</li></a> 
-    <a href="book_details.html"><li> Books details</li></a> 
     <a href="borrowed_books.html"><li>Borrowed Books</li></a> 
     <a href="login.html"><li>Logout</li></a>
 
@@ -25,7 +26,8 @@
 
         <h1> <ins> Your Borrowed Books </ins> </h1>
 
-        <table>
+        <table id="borrowedTable">
+            <thead>
                 <tr>
                     <th width="300"> Book Title </th>
                     <th width="200"> Author </th>
@@ -34,22 +36,27 @@
                     <th width="100"> Due Date </th>
                     <th width="100"> Action </th>
                 </tr>
-
-                <tr height="40">
-                    <td><i>No books borrowed yet. Use the Search page to find a book!</i></td>
-                    <td> <button type="button"> Return </button></td>
+            </thead>
+            <tbody id="tableBody">
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 20px;"> 
+                        <i>No books borrowed yet. Use the Search page to find a book!</i> 
+                    </td>
                 </tr>
+            </tbody>
         </table>
-        
+
         <br><br>
-
-        <a href="search.html">Search for books</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-        <a href="user_home.html">Home page</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-        <a href="login.html">Log Out</a>
+        <hr>
+        <br><br>
+        <div class="bottom-links">
+            <a href="search.html">Search for books</a>
+            <br><br>
+            <a href="user_home.html">Home page</a>
+            <br><br>
+            <a href="login.html">Logout</a>
+        </div>
         
+        <script src="borrowed_books.js"></script>
     </body>
 </html>
