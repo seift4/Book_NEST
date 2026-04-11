@@ -4,6 +4,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Book Details</title>
+        <link href="https://googleapis.com" rel="stylesheet">
+        <link rel="stylesheet" href="bookstyle.css">
     </head>
 
     <body>
@@ -14,7 +16,6 @@
  
     <a href="user_home.html"><li>Home</li></a> 
     <a href="search.html"><li>Search Books</li></a> 
-    <a href="book_details.html"><li> Books details</li></a> 
     <a href="borrowed_books.html"><li>Borrowed Books</li></a> 
     <a href="login.html"><li>Logout</li></a>
 
@@ -29,60 +30,58 @@
         <table>
             <tr>
                 <th>Book Title:</th>
-                <td> The Great Gatsby </td>
+                <td id="bookTitle"></td>
             </tr>
 
             <tr>
                 <th>Book Cover:</th>
                 <td> 
-                    <a href="https://en.wikipedia.org/wiki/The_Great_Gatsby"> 
-                        <img src="The_Great_Gatsby_Cover_1925_Retouched.jpg" alt="A picture of the great gatsby's book cover" 
-                        title="The Great Gatsby Book Cover" height="250">
-                    </a>
+                    <img id="bookCover" alt="Book cover" height="250">
                 </td>
             </tr>
 
             <tr>
                 <th>Author:</th>
-                <td> F. Scott Fitzgerald </td>
+                <td id="bookAuthor"></td>
             </tr>
 
             <tr>
                 <th>Category:</th>
-                <td> Classic </td>
+                <td id="bookCategory"></td>
             </tr>
 
             <tr>
                 <th>Status:</th>
-                <td><b> Available </b></td>
+                <td id="bookStatus"><b></b></td>
             </tr>
 
             <tr>
                 <th>Description:</th>
                 <td>
-                    <p> The Great Gatsby (1925) by F. Scott Fitzgerald is a classic American novel set in the Roaring Twenties.
-                     Narrated by Nick Carraway, it explores themes of love, obsession, and the corruption of the American Dream as mysterious millionaire Jay Gatsby tries 
-                     to win back his former love, Daisy Buchanan, amid the decadence of Long Island. </p>
+                    <p id="bookDescription"></p>
                 </td>
             </tr>
         </table>
 
         <br>
 
-        <button type="button"> Borrow This Book </button>
+        <button type="button" id="borrowBtn"> Borrow This Book </button>
 
-        <br> <br> <br>
+        <br><br> 
+        <hr>
+        <br><br> 
+        
+        <div class="bottom-links">
+            <a href="search.html">Search for books</a>
+            <br><br>
+            <a href="user_home.html">Home page</a>
+            <br><br>
+            <a href="borrowed_books.html">View borrowed books</a>
+            <br><br>
+            <a href="login.html">Logout</a>
+        </div>
 
-        <a href="search.html" target="_blank">Search for other books</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-        <a href="user_home.html" target="_blank">Home page</a>
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-        <a href="borrowed_books.html" target="_blank">View borrowed books</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-        <a href="login.html" target="_blank">Log Out</a>
-
+        <script src="search.js"></script>
+        <script src="book_details.js"></script>
     </body>
 </html>

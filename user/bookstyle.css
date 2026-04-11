@@ -1,0 +1,154 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Sora', sans-serif;
+    background-color: #1D293F;
+    color: #E0E8F5;
+    padding: 20px;
+    width: 100%;
+    min-height: 100vh;
+}
+
+.bottom-links a {
+    color: #2643D1;
+    text-decoration: none;
+    margin-right: 15px;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.bottom-links a:hover {
+    text-decoration: underline;
+    color: #E0E8F5;
+}
+
+/* -------------------- Nav -------------------- */
+nav {
+    background-color: #152035;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+nav h2 {
+    color: #E0E8F5;
+    margin-bottom: 10px;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+nav ul a {
+    color: #E0E8F5;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+nav ul li {
+    list-style: none;
+}
+
+nav ul a:hover {
+    text-decoration: underline;
+    color: #2643D1;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid rgba(38, 67, 209, 0.3);
+    margin-top: 15px;
+}
+
+/* -------------------- Headers -------------------- */
+h1 {
+    color: #E0E8F5;
+    margin: 20px 0;
+    font-size: 36px;
+    text-align: center;
+}
+
+ins {
+    text-decoration: none; 
+}
+
+a {
+    color: #2643D1;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+a:hover {
+    color: #E0E8F5;
+    text-decoration: underline;
+}
+
+/* -------------------- Table  -------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #152035;
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 20px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(38, 67, 209, 0.2);
+}
+
+th {
+    background-color: rgba(38, 67, 209, 0.2);
+    color: #2643D1;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+td {
+    font-size: 18px;
+    font-weight: 300;
+    border: 1px solid rgba(38, 67, 209, 0.2);
+}
+
+/* -------------------- Img & Button -------------------- */
+img {
+    border-radius: 5px;
+    border: 2px solid #2643D1;
+    transition: transform 0.2s;
+}
+
+img:hover {
+    transform: scale(1.02);
+}
+
+button {
+    background-color: #2643D1;
+    color: #E0E8F5;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Sora', sans-serif;
+    font-weight: 500;
+}
+
+button:hover {
+    background-color: #1a2ea3;
+}
+
+/* ---------------------------------------- */
