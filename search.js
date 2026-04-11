@@ -1,6 +1,4 @@
-// ------------------------------------------------------------
-// بيانات الكتب (تم تخزينها هنا عشان ميبقاش في hard coded values)
-// ------------------------------------------------------------
+
 var booksDatabase = [
     {
         id: 1,
@@ -31,14 +29,8 @@ var booksDatabase = [
     }
 ];
 
-// ------------------------------------------------------------
-// سجل البحث (بيتخزن في localStorage)
-// ------------------------------------------------------------
 var searchHistory = [];
 
-// ------------------------------------------------------------
-// لما الصفحة تفتح، ننفذ الكود ده
-// ------------------------------------------------------------
 window.onload = function() {
     loadHistory();
     displayAllBooks();
@@ -49,45 +41,31 @@ window.onload = function() {
     }
 };
 
-// ------------------------------------------------------------
-// عرض كل الكتب (لما الصفحة تفتح أول مرة)
-// ------------------------------------------------------------
 function displayAllBooks() {
     displayResults(booksDatabase, "", "All");
 }
 
-// ------------------------------------------------------------
-// دالة البحث الرئيسية
-// ------------------------------------------------------------
 function handleSearch(event) {
-    event.preventDefault(); // منع إعادة تحميل الصفحة
-    
-    // 1. نجيب النص اللي كتبه المستخدم
+    event.preventDefault(); 
     var searchTerm = document.getElementById("searchInput").value;
     
-    // 2. VALIDATION: نتأكد إنه مش فاضي
     if (searchTerm === "" || searchTerm.trim() === "") {
         showMessage("Please enter a search term!", "error");
         return false;
     }
     
-    // 3. نجيب نوع البحث (All, Title, Author, Category)
     var searchType = getSelectedSearchType();
     
-    // 4. ننفذ البحث
     performSearch(searchTerm, searchType);
     
     return true;
 }
 
-// ------------------------------------------------------------
-// دالة تنفيذ البحث الفعلية
-// ------------------------------------------------------------
 function performSearch(searchTerm, searchType) {
     var filteredBooks = [];
     var lowerTerm = searchTerm.toLowerCase();
     
-    // تصفية الكتب حسب نوع البحث
+
     for (var i = 0; i < booksDatabase.length; i++) {
         var book = booksDatabase[i];
         
@@ -115,28 +93,22 @@ function performSearch(searchTerm, searchType) {
         }
     }
     
-    // حفظ البحث في السجل
     addToHistory(searchTerm, searchType);
     
-    // عرض النتائج
     displayResults(filteredBooks, searchTerm, searchType);
     
-    // لو مفيش نتائج، نعرض رسالة
     if (filteredBooks.length === 0) {
         showMessage("No books found for '" + searchTerm + "'", "error");
     }
 }
 
-// ------------------------------------------------------------
-// دالة لعرض النتائج على الصفحة
-// ------------------------------------------------------------
 function displayResults(books, searchTerm, searchType) {
     var container = document.getElementById("resultsContainer");
     var statsDiv = document.getElementById("searchStats");
     
     if (!container) return;
     
-    // تحديث إحصائية البحث
+    
     if (statsDiv) {
         if (searchTerm === "") {
             statsDiv.innerHTML = "Showing all " + books.length + " books";
@@ -145,13 +117,11 @@ function displayResults(books, searchTerm, searchType) {
         }
     }
     
-    // لو مفيش كتب
     if (books.length === 0) {
         container.innerHTML = "<p style='color:gray;'>No books to display</p>";
         return;
     }
     
-    // بناء HTML لكل كتاب
     var htmlContent = "";
     for (var i = 0; i < books.length; i++) {
         var book = books[i];
@@ -171,9 +141,6 @@ function displayResults(books, searchTerm, searchType) {
     container.innerHTML = htmlContent;
 }
 
-// ------------------------------------------------------------
-// دالة لمعرفة نوع البحث المختار من الراديو
-// ------------------------------------------------------------
 function getSelectedSearchType() {
     var radios = document.getElementsByName("search_by");
     
@@ -189,9 +156,6 @@ function getSelectedSearchType() {
     return "All"; // default
 }
 
-// ------------------------------------------------------------
-// دالة لإظهار رسائل (خطأ أو تأكيد)
-// ------------------------------------------------------------
 function showMessage(message, type) {
     var alertDiv = document.getElementById("alertMessage");
     if (!alertDiv) return;
@@ -205,11 +169,6 @@ function showMessage(message, type) {
     }, 3000);
 }
 
-// ------------------------------------------------------------
-// دوال سجل البحث (Search History) باستخدام localStorage
-// ------------------------------------------------------------
-
-// إضافة بحث جديد للسجل
 function addToHistory(term, type) {
     if (term === "") return;
     
@@ -219,22 +178,19 @@ function addToHistory(term, type) {
         date: new Date().toLocaleString()
     };
     
-    // نضيف في البداية
+    
     searchHistory.unshift(searchRecord);
     
-    // نخلي آخر 5 بس
+
     if (searchHistory.length > 5) {
         searchHistory.pop();
     }
     
-    // نحفظ في localStorage
     localStorage.setItem("mySearchHistory", JSON.stringify(searchHistory));
     
-    // نعرض السجل المحدث
     displayHistory();
 }
 
-// تحميل السجل من localStorage
 function loadHistory() {
     var saved = localStorage.getItem("mySearchHistory");
     if (saved) {
@@ -243,7 +199,6 @@ function loadHistory() {
     }
 }
 
-// عرض السجل على الصفحة
 function displayHistory() {
     var historyDiv = document.getElementById("historyList");
     if (!historyDiv) return;
@@ -264,11 +219,10 @@ function displayHistory() {
     historyDiv.innerHTML = html;
 }
 
-// تكرار بحث قديم (لما المستخدم يدوس على حاجة من السجل)
 function repeatSearch(term, type) {
     document.getElementById("searchInput").value = term;
     
-    // نحدد الراديو المناسب
+    
     var radios = document.getElementsByName("search_by");
     var typeMap = {"All":0, "Title":1, "Author":2, "Category":3};
     var index = typeMap[type];
@@ -276,7 +230,6 @@ function repeatSearch(term, type) {
         radios[index].checked = true;
     }
     
-    // ننفذ البحث
     performSearch(term, type);
 }
 
