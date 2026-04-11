@@ -7,21 +7,27 @@ var booksDatabase = [
         title: "The Great Gatsby",
         author: "F. Scott Fitzgerald",
         category: "Classic",
-        status: "Available"
+        status: "Available",
+        coverImage: "The_Great_Gatsby_Cover_1925_Retouched.jpg",
+        description: "The Great Gatsby (1925) by F. Scott Fitzgerald is a classic American novel set in the Roaring Twenties. Narrated by Nick Carraway, it explores themes of love, obsession, and the corruption of the American Dream as mysterious millionaire Jay Gatsby tries to win back his former love, Daisy Buchanan, amid the decadence of Long Island."
     },
     {
         id: 2,
         title: "Clean Code",
         author: "Robert C. Martin",
         category: "Programming",
-        status: "Borrowed"
+        status: "Borrowed",
+        coverImage: "71nj3JM-igL._AC_UF1000,1000_QL80_.jpg",
+        description: "A foundational programming book that teaches developers how to write, read, and clean code. It highlights that 'clean' code is readable, simple, maintainable, and efficient, helping developers avoid the technical debt and failure caused by poorly written software"
     },
     {
         id: 3,
-        title: "Harry Potter",
+        title: "Harry Potter and the Philosopher's Stone",
         author: "J.K. Rowling",
         category: "Fantasy",
-        status: "Available"
+        status: "Available",
+        coverImage: "9781408855652.jpg",
+        description: "Harry Potter and the Philosopher's Stone (1997) by J.K. Rowling is a fantasy novel introducing an orphaned boy who discovers on his eleventh birthday that he is a wizard. Harry escapes his abusive aunt and uncle to attend Hogwarts School of Witchcraft and Wizardry, making friends (Ron and Hermione) and uncovering a plot to steal an ancient stone."
     }
 ];
 
@@ -157,7 +163,7 @@ function displayResults(books, searchTerm, searchType) {
                 <p><b>Author:</b> ${book.author}</p>
                 <p><b>Category:</b> ${book.category}</p>
                 <p><b>Status:</b> <span class="${statusClass}">${book.status}</span></p>
-                <a href="book_details.html?id=${book.id}">View Details →</a>
+                <button onclick="viewBook(${i})">View Details</button>
             </div>
         `;
     }
@@ -272,4 +278,10 @@ function repeatSearch(term, type) {
     
     // ننفذ البحث
     performSearch(term, type);
+}
+
+function viewBook(index) {
+    const book = booksDatabase[index];
+    localStorage.setItem('selectedBook', JSON.stringify(book)); // Save book as a string
+    window.location.href = 'book_details.html';
 }
