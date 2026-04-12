@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
-    <haed>
+    <head>
+        <link rel="stylesheet" href="style_editbook.css">
         <title> Edit Book </title>
-    </haed>
+    </head>
     <body>
         <nav>
     <h2>📚 BookNest Library</h2>
@@ -19,20 +20,67 @@
     <hr>
 </nav>
         <h2> Edit Book</h2>
+        <div id="form">
         <form>
             <label>Book Title:</label><br>
-            <input type="text" value="Harry Potter"><br><br>
+            <input type="text" value="Harry Potter" id="title"><br><br>
             <label>Author:</label><br>
-            <input type="text" value="J.K Rowling"><br><br>
+            <input type="text" value="J.K Rowling" id="author" ><br><br>
             <label>Category:</label><br>
-            <input type="text" value="Fantasy"><br><br>
-            <label>Price::</label><br>
-            <input type="number" value="150"><br><br>
-            <label>Descreption::</label><br>
-            <textarea></textarea><br><br>
-            <button type="sumbit">Edit Book</button>
+            <select id="category" name="bookCategory" required>
+                <option value="" disabled selected> Select a category: </option>
+                <option value="fiction">Fiction</option>
+                <option value="non-fiction">Non-Fiction</option>
+                <option value="science">Science</option>
+                <option value="history">History</option>
+                <option value="technology">Technology</option>
+                <option value="business">Business</option>
+                <option value="self-help">Self-Help</option>
+                <option value="children">Children</option>
+            </select>
+            <br><br>
+            <label>Price:</label><br>
+            <input type="number" value="150" id="price"><br><br>
+            <label>Descreption:</label><br>
+            <textarea id="description"></textarea><br><br>
+            <button type="sumbit" class="btn">Edit Book</button>
         </form>
+        </div>
         <br>
-        <a href="veiw_book_admin.html">Veiw Books</a>
+        <a href="veiw_book_admin.html">
+            <button class="btn">Veiw Books</button>
+        </a>
+        <script>
+            let p = new URLSearchParams(window.location.search);
+            let index = p.get("index");
+
+            let books = JSON.parse(localStorage.getItem("books")) || [];
+            let book = books[index];
+            document.getElementById("title").value = book.title;
+            document.getElementById("author").value = book.author;
+            document.getElementById("price").value = book.price;
+            document.getElementById("description").value = book.description || "";
+            document.getElementById("category").value = book.category || "";
+
+
+            document.getElementById("form").onsubmit = function(e) {
+           e.preventDefault();
+
+           books[index] = {
+           ...book,
+           title: document.getElementById("title").value,
+           author: document.getElementById("author").value,
+           price: document.getElementById("price").value,
+           category: document.getElementById("category").value,
+           description: document.getElementById("description").value
+         };
+
+    localStorage.setItem("books", JSON.stringify(books));
+
+    alert("Book Updated Successfully ✅");
+
+    window.location.href = "veiw_book_admin.html";
+};
+        </script>
     </body>
 </html>
