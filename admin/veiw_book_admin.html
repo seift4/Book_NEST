@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="style_veiwbook.css">
         <title>Veiw Books</title>
     </head>
     <body>
+    
         <nav>
     <h2>📚 BookNest Library</h2>
    
@@ -19,27 +21,75 @@
     <hr>
 </nav>
         <h2>Books List</h2>
-        <table id="booksTable">
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Category</th>
-                <th>Price</th>
-            </tr>
-            <tr>
-                <th>Clean Code</th>
-                <th>Robert Martin</th>
-                <th>Programming</th>
-                <th>200</th>
-            </tr>
-            <tr>
-                <th>Harry Potter</th>
-                <th>J.K Rowling</th>
-                <th>Fantasy</th>
-                <th>150</th>
-            </tr>
-        </table>
+        <div id="Books">
+
+        </div>
         <br>
-        <a href="admin_add_book.html">Add New Book</a>
+        <a href="admin_add_book.html" >
+            <button class="btn">Add New Book</button>
+        </a>
+        <script>
+            if (!localStorage.getItem("books")) {
+    let books = [
+        {
+            title: "Harry Potter and the chamber of secrets",
+            price: 200,
+            image: "harrypotter/part2.jpg"
+        },
+        {
+            title: "Harry Potter and the prisoner of Azkaban",
+            price: 400,
+            image: "harrypotter/part3.jpg"
+        },
+        {
+            title: "Harry Potter and the Goblet of fire",
+            price: 350,
+            image: "harrypotter/part4.jpg"
+        },
+        {
+            title: "Harry Potter and the Half-blood prince",
+            price: 500,
+            image: "harrypotter/part5.jpg"
+        },
+        {
+            title: "Harry Potter and the deathly hallows",
+            price: 700,
+            image: "harrypotter/part6.jpg"
+        }
+    ];
+
+    localStorage.setItem("books", JSON.stringify(books));
+}
+
+let container = document.getElementById("Books");
+let books = JSON.parse(localStorage.getItem("books")) || [];
+
+books.forEach(function(book ,index) {
+    let div = document.createElement("div");
+    div.className = "harry_potter";
+
+    div.innerHTML = `
+        <img src="${book.image}">
+        <p>${book.title}</p>
+        <p>Price : ${book.price} EGP</p>
+        <button  class="btn" , onclick="editBook(${index})">Edit </button>
+        <button  class="btn" , onclick="deleteBook(${index})">Delete</button>
+    `;
+
+    container.appendChild(div);
+});
+function deleteBook(index) {
+    let books = JSON.parse(localStorage.getItem("books"));
+
+    books.splice(index, 1); 
+
+    localStorage.setItem("books", JSON.stringify(books));
+
+    location.reload();
+}
+function editBook(index) {
+    window.location.href = "edit_book.html?index=" + index;
+}
+        </script>
     </body>
 </html>
