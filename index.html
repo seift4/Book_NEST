@@ -18,13 +18,13 @@ nav {
     border-bottom: 1px solid #ddd;
 }
 
-/* Logo / Title */
-nav h2 {
+/* Logo */
+.logo {
     margin: 0;
     font-size: 20px;
 }
 
-/* Nav List */
+/* Nav Links Container */
 nav ul {
     list-style: none;
     display: flex;
@@ -35,20 +35,26 @@ nav ul {
 
 /* Links */
 .nav-link {
+
     text-decoration: none;
     color: #1D293F;
-    font-weight: 500;
+    font-size: 14px;
     transition: 0.3s;
-    padding: 0;
+}
+
+/* Remove default li style */
+nav li {
+        font-size: 15px;
+    list-style: none;
 }
 
 /* Hover Effect */
 .nav-link:hover {
-    padding-bottom: 0px;
-    border-bottom:solid 1px #1D293F ;
-
+    margin: 0;
+    padding: 0;
+    color: #2e3f5c;
+    border-bottom: solid 1px black;
 }
-
 
 
 
@@ -140,7 +146,7 @@ hr {
 <body>
 
 <nav>
-    <h2>📚 BookNest Library</h2>
+    <h2 class="logo">📚 BookNest Library</h2>
     <ul>
     <a class="nav-link" href="index.html"><li>Home</li></a> 
     <a class="nav-link" href="login.html"><li>Login</li></a> 

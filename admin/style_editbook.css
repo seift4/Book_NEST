@@ -1,15 +1,72 @@
 body{
-    background-color: #1D293F;
+    background-color: #ffff;
 }
+body{
+        font-family: Arial, sans-serif;
+}
+/* Navbar */
+nav {
+    background-color: #ffffff;
+    color: #1D293F;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Logo */
+.logo {
+    margin: 0;
+    font-size: 20px;
+}
+
+/* Nav Links Container */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Links */
+.nav-link {
+
+    text-decoration: none;
+    color: #1D293F;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+/* Remove default li style */
+nav li {
+        font-size: 15px;
+    list-style: none;
+}
+
+/* Hover Effect */
+.nav-link:hover {
+    margin: 0;
+    padding: 0;
+    color: #2e3f5c;
+    border-bottom: solid 1px black;
+}
+
+
+
+
+
+
 h2{
     font-size: 40px;
     font-weight: 700;
-    color:#E0E8F5;
+    color:  #1D293F;
 }
 #form {
     width:400;
     margin:50px auto;
-    background:#E0E8F5 ;
+    background:  #1D293F;
     padding :20px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -40,8 +97,8 @@ h2{
   color: #333;
 }
 .btn{
-    background-color: #E0E8F5;
-    color: #2643D1;
+    background-color:  #1D293F;
+    color: #ffff;
     border :2px solid E0E8F5;
     padding: 10px 20px;
     border-radius: 8px;
@@ -53,7 +110,7 @@ h2{
   color: white;
 }
 .btn:visited{
-        background-color: #E0E8F5;
+        background-color: #1D293F;
     color: #2643D1;
     border :2px solid E0E8F5;
     padding: 10px 20px;

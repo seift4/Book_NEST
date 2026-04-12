@@ -1,12 +1,69 @@
+body{
+        font-family: Arial, sans-serif;
+}
+/* Navbar */
+nav {
+    background-color: #ffffff;
+    color: #1D293F;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Logo */
+.logo {
+    margin: 0;
+    font-size: 20px;
+}
+
+/* Nav Links Container */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Links */
+.nav-link {
+
+    text-decoration: none;
+    color: #1D293F;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+/* Remove default li style */
+nav li {
+        font-size: 15px;
+    list-style: none;
+}
+
+/* Hover Effect */
+.nav-link:hover {
+    margin: 0;
+    padding: 0;
+    color: #2e3f5c;
+    border-bottom: solid 1px black;
+}
+
+
+
+
+
+
 h2{
     font-size: 40px;
     font-weight: 700;
-    color:#E0E8F5;
+    color:#1D293F;
 }
 body {
-    background-color: #1D293F;
+    background-color:  #ffffff ;
      font-family: 'Sora', sans-serif;
-     text_color: #E0E8F5 
+     text_color:  #1D293F;
 }
 #Books{
   display: grid;
@@ -16,7 +73,7 @@ body {
   align-items: start;
 }
 .harry_potter {
-   background: #E0E8F5 ;
+   background: #ffffff ;
   padding: 10px;
   text-align: center;
   border-radius: 12px;
@@ -32,13 +89,13 @@ body {
   object-fit: contain;
 }
 .harry_potter p {
-  color: #2643D1;
+  color: #1D293F;
   font-family: sans-serif;
   margin: 5px 0;
 }
 .btn{
-    background-color: #E0E8F5;
-    color: #2643D1;
+    background-color: #1D293F;
+    color:   #ffffff ;
     border :2px solid E0E8F5;
     padding: 10px 20px;
     border-radius: 8px;
@@ -51,7 +108,7 @@ body {
   color: white;
 }
 .btn:visited{
-        background-color: #E0E8F5;
+        background-color:  #ffffff ;
     color: #2643D1;
     border :2px solid E0E8F5;
     padding: 10px 20px;
