@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('bookAuthor').innerText = book.author;
         document.getElementById('bookCategory').innerText = book.category;
         document.getElementById('bookStatus').innerText = book.status;
-        document.getElementById('bookDescription').innerText = book.description;
+        document.getElementById('bookDescription').innerText = book.description || "No info.";
         document.getElementById('bookCover').src = book.image || "no_cover_available.png";
 
 
