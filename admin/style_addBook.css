@@ -8,12 +8,14 @@ ul li{
 }
 
 h1{
+    color: #1D293F;
     text-align: center;
     font-family: 'Sora', sans-serif;
     text-decoration: underline;
 }
 
 form {
+    color: #1D293F;
     width: 400px;
     margin: auto;
     background-color: white;
@@ -42,7 +44,8 @@ input:focus, select:focus, textarea:focus {
 }
 
 #submit{
-    background-color:#4A90E2;
+    background-color: #1D293F;
+    color:white;
 }
 
 button:hover {

@@ -29,14 +29,15 @@ input{
 }
 input:focus{
     outline: none;
-    box-shadow: 0 0 5px rgba(30,58,138,0.3);
+    box-shadow: 0 0 5px  #1D293F;
 }
 #reset{
     background-color: lightgray;
 }
 
 #submit{
-    background-color:#4A90E2;
+    background-color: #1D293F;
+    color:white;
 }
 
 button{
