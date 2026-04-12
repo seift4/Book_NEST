@@ -1,0 +1,63 @@
+body{
+    background-color: #1D293F;
+}
+h2{
+    font-size: 40px;
+    font-weight: 700;
+    color:#E0E8F5;
+}
+#form {
+    width:400;
+    margin:50px auto;
+    background:#E0E8F5 ;
+    padding :20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+#form label{
+    color:#2643D1 ;
+    font-weight: bold;
+}
+#form input,#form textarea{
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+}
+#form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background-color: white;
+  color: #333;
+}
+.btn{
+    background-color: #E0E8F5;
+    color: #2643D1;
+    border :2px solid E0E8F5;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+.btn:hover{
+ background-color: #2643D1;
+  color: white;
+}
+.btn:visited{
+        background-color: #E0E8F5;
+    color: #2643D1;
+    border :2px solid E0E8F5;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: 0.3s;
+}

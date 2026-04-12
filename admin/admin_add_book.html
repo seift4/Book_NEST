@@ -23,7 +23,7 @@
 </nav>
         <h1> Add book </h1>
 
-        <form>
+        <form id="bookForm">
             <div>
             <label for="bookID">ID: </label><br>
             <input type="text" id="bookID" name="bookID" placeholder="ID" required>
@@ -72,6 +72,10 @@
               <label for="bookPrice">Price: </label>
               <input type="number" id="bookPrice" name="bookPrice" placeholder="price" required>  
             </div>
+            <div>
+              <label for="bookImage">Book Image:</label><br>
+              <input type="file" id="bookImage" accept="image/*" required>
+            </div>
             <br> 
             
             <div class="buttons">
@@ -79,6 +83,49 @@
                 <button id="submit" type="submit">Add</button>
             </div>
         </form>
+        <script>
+          document.getElementById("bookForm").onsubmit = function(e) {
+          e.preventDefault();
+
+          let id = document.getElementById("bookID").value;
+          let title = document.getElementById("bookName").value;
+          let author = document.getElementById("bookAuthor").value;
+          let category = document.getElementById("category").value;
+          let description = document.getElementById("bookDescription").value;
+          let price = document.getElementById("bookPrice").value;
+
+         let fileInput = document.getElementById("bookImage");
+         let file = fileInput.files[0];
+
+        let reader = new FileReader();
+
+       reader.onload = function() {
+          let imageBase64 = reader.result; 
+
+           let books = JSON.parse(localStorage.getItem("books")) || [];
+
+        books.push({
+            id: id,
+            title: title,
+            author: author,
+            category: category,
+            description: description,
+            price: price,
+            image: imageBase64
+        });
+
+        localStorage.setItem("books", JSON.stringify(books));
+
+        alert("Book Added Successfully ✅");
+
+        window.location.href = "veiw_book_admin.html";
+    };
+
+    if (file) {
+        reader.readAsDataURL(file); 
+    }
+    };
+        </script>
     </body>
 
 
