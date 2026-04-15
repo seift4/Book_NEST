@@ -1,7 +1,5 @@
-body{
-        font-family: Arial, sans-serif;
-}
-/* Navbar */
+
+        /* Navbar */
 nav {
     background-color: #ffffff;
     color: #1D293F;
@@ -42,7 +40,6 @@ nav li {
     list-style: none;
 }
 
-
 .nav-link:not(.out):hover {
   /* ضع التنسيقات التي تريدها هنا */
   color: blue; /* مثال لتغيير اللون */
@@ -68,67 +65,79 @@ nav li {
 
 
 
-
-
-
-
-h1{
+        
+        /* General */
+body {
+    background-color: #ffffff;
     color: #1D293F;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
     text-align: center;
-    font-family: 'Sora', sans-serif;
-    text-decoration: underline;
+    padding: 40px 20px;
+    background-color: #f8f9fb;
 }
 
-form {
-    color: #1D293F;
-    width: 400px;
+header h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+header p {
+    max-width: 750px;
     margin: auto;
-    background-color: white;
-    padding: 25px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-label{
-    text-align: right;
+    line-height: 1.6;
 }
 
-input, select, textarea{
-    width: 90%;
-    border-radius: 5px;
-    border-style: none none solid none;
-    border-color: rgba(0, 0, 0, 0.3); 
+/* Sections */
+section {
+    max-width: 800px;
+    margin: auto;
+    padding: 30px 20px;
 }
 
-input:focus, select:focus, textarea:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(30,58,138,0.3);
+h2 {
+    margin-bottom: 15px;
 }
 
-#reset{
-    background-color: lightgray;
+/* List */
+section ul {
+    list-style: none;
+    padding: 0;
 }
 
-#submit{
+section ul li {
+    margin-bottom: 25px;
+    line-height: 1.6;
+    background-color: #f8f9fb;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+/* Buttons */
+button {
     background-color: #1D293F;
-    color:white;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
 }
 
 button:hover {
-    opacity: 0.80;
-    text-decoration: underline;
+    background-color: #2e3f5c;
 }
 
-button{
-    width: 60px;
-    height: 30px;
-    border-radius: 10px;
-}
-.buttons {
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-align: center;   
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    
+/* Divider */
+hr {
+    border: none;
+    height: 1px;
+    background-color: #ddd;
+    margin: 20px 0;
 }

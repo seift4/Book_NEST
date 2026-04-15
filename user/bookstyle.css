@@ -70,15 +70,27 @@ nav li {
     list-style: none;
 }
 
-/* Hover Effect */
-.nav-link:hover {
-    margin: 0;
-    padding: 0;
-    color: #2e3f5c;
-    border-bottom: solid 1px black;
+.nav-link:not(.out):hover {
+  /* ضع التنسيقات التي تريدها هنا */
+  color: blue; /* مثال لتغيير اللون */
+  text-decoration: underline; 
 }
 
 
+.out{
+    position: relative;
+    bottom: 3px;
+    background-color: #1D293F;
+    padding: 6px;
+    color: #ffffff;
+    border-radius: 12px;
+
+}
+.out:hover{
+    background-color: #ffffff;
+    padding: 6px;
+    color: #1D293F;
+}
 
 
 

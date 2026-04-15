@@ -19,7 +19,7 @@
     </ul>
 </nav>
 
-    <form>
+    <form onsubmit="return loginUser()">
         <div>
             <label for="username"> Email or Username: </label>
             <input type = "text" id="username" name="username/email" placeholder="email/username" maxlength="10" required >
@@ -39,6 +39,9 @@
             <button id="submit" type="submit"> Login </button>
         </div>
     </form>
+
+            
+<script src="authScript.js"></script>
 </body>
 
 

@@ -1,6 +1,4 @@
-body{
-        font-family: Arial, sans-serif;
-}
+
 /* Navbar */
 nav {
     background-color: #ffffff;
@@ -20,6 +18,8 @@ nav {
 
 /* Nav Links Container */
 nav ul {
+        position: absolute;
+    right: 30px;
     list-style: none;
     display: flex;
     gap: 20px;
@@ -71,65 +71,70 @@ nav li {
 
 
 
-
-h2{
-    font-size: 40px;
-    font-weight: 700;
-    color:#1D293F;
-}
+        /* General */
 body {
-    background-color:  #ffffff ;
-     font-family: 'Sora', sans-serif;
-    
+    background-color: #ffffff;
+    color: #1D293F;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
-#Books{
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
-  padding: 20px;
-  align-items: start;
+
+/* Header */
+header {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: #f8f9fb;
 }
-.harry_potter {
-   background: #ffffff ;
-  padding: 10px;
-  text-align: center;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 320px;
+
+header h1 {
+    font-size: 30px;
+    margin-bottom: 10px;
 }
-.harry_potter img {
-  width: 100%;
-  height: 180px;
-  object-fit: contain;
+
+header p {
+    max-width: 700px;
+    margin: 10px auto;
+    line-height: 1.6;
 }
-.harry_potter p {
-  color: #1D293F;
-  font-family: sans-serif;
-  margin: 5px 0;
+
+/* Sections */
+section {
+    max-width: 800px;
+    margin: auto;
+    padding: 30px 20px;
 }
-.btn{
+
+section h2 {
+    margin-bottom: 15px;
+}
+
+/* List */
+section ul {
+    list-style: none;
+    padding: 0;
+}
+
+section ul li {
+    background-color: #f8f9fb;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+/* Buttons */
+button {
     background-color: #1D293F;
-    color:   #ffffff ;
-    border :2px solid E0E8F5;
+    color: #ffffff;
+    border: none;
     padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
     transition: 0.3s;
-  
 }
-.btn:hover{
- background-color: #2643D1;
-  color: white;
-}
-.btn:visited{
-        background-color:  #ffffff ;
-    color: #2643D1;
-    border :2px solid E0E8F5;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: 0.3s;
+
+button:hover {
+    background-color: #2e3f5c;
 }

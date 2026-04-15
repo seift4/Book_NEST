@@ -15,7 +15,7 @@
     <a   class="nav-link" href="admin_add_book.html"><li>Add Book</li></a> 
     <a   class="nav-link" href="veiw_book_admin.html"><li>View Books</li></a>
     <a   class="nav-link" href="edit_book.html"><li>Edit Books</li></a>
-    
+    <a class="nav-link out" href="#" onclick="logout()">Logout</a>
     
 </ul>
 </nav>
@@ -27,6 +27,9 @@
         <a href="admin_add_book.html" >
             <button class="btn">Add New Book</button>
         </a>
+
+
+        <script src="../authScript.js"></script>
         <script>
             if (!localStorage.getItem("Books")) {
     let books = [
