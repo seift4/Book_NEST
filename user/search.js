@@ -215,13 +215,6 @@ function repeatSearch(term, type) {
 
 function viewBook(index) {
     const book = booksDatabase[index];
-    const params = new URLSearchParams({
-        title: book.title,
-        author: book.author,
-        category: book.category,
-        status: book.status || "Available",
-        description: book.description || "No description provided.",
-        image: book.coverImage || "no_cover_available.png"
-    });
-    window.location.href = `book_details.html?${params.toString()}`;
+    localStorage.setItem('selectedBook', JSON.stringify(book));
+    window.location.href = "book_details.html";
 }

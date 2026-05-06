@@ -1,37 +1,39 @@
 
-document.addEventListener('DOMContentLoaded', () => {
+function displayBooks() {
 
-    const params = new URLSearchParams(window.location.search);
-    const title = params.get('title');
+    const tableBody = document.getElementById("tableBody");
+    const borrowedBooks = JSON.parse(localStorage.getItem('borrowedBooks')) || [];
 
-    if(title) {
-        const table = document.querySelector("table");
-        
-        if(table.rows.length > 1) {
-            table.deleteRow(1);
-        }
-        
-        const row = table.insertRow(-1);
+    tableBody.innerHTML = "";
 
-        row.innerHTML = `<td>${title}</td>
-            <td>${params.get('author')}</td>
-            <td>${params.get('category')}</td>
-            <td>${params.get('dateBorrowed')}</td>
-            <td>${params.get('dueDate')}</td>
-            <td><button onclick="returnBook(this)">Return</button></td>`;
+    if(borrowedBooks.length === 0) {
+        tableBody.innerHTML = `<tr>
+                <td colspan="6" style="text-align: center; padding: 20px;"> 
+                    <i>No books borrowed yet. Use the Search page to find a book!</i> 
+                </td>
+            </tr>`;
+        return;
     }
-});
 
-function returnBook(button) {
-    const table = document.querySelector("table");
-    const row = button.closest('tr');
+    borrowedBooks.forEach((book, index) => {
+        const row = tableBody.insertRow();
+
+        row.innerHTML = `<td>${book.title}</td>
+            <td>${book.author}</td>
+            <td>${book.category}</td>
+            <td>${book.dateBorrowed}</td>
+            <td>${book.dueDate}</td>
+            <td><button onclick="returnBook(${index})">Return</button></td>
+        `;
+    });
+}
+document.addEventListener('DOMContentLoaded', () => { displayBooks(); });
+
+function returnBook(index) {
+    let borrowedBooks = JSON.parse(localStorage.getItem('borrowedBooks')) || [];
+
+    borrowedBooks.splice(index, 1);
     
-    row.remove();
-    if(table.rows.length === 1) {
-        const emptyRow = table.insertRow(-1);
-        emptyRow.innerHTML = `
-            <td colspan="6" style="text-align: center; padding: 20px;"> 
-                <i>No books borrowed yet. Use the Search page to find a book!</i> 
-            </td>`;
-    }
+    localStorage.setItem('borrowedBooks', JSON.stringify(borrowedBooks));
+    displayBooks();
 }
