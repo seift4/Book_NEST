@@ -1,5 +1,6 @@
 
-var booksDatabase = [
+// ====== الكتب الأساسية في المشروع ======
+var defaultBooks = [
     {
         id: 1,
         title: "The Great Gatsby",
@@ -29,9 +30,31 @@ var booksDatabase = [
     }
 ];
 
+// ====== تحميل كل الكتب (الأساسية + اللي أضافها الأدمن) ======
+function getAllBooks() {
+    var adminBooks = JSON.parse(localStorage.getItem("books")) || [];
+
+    var formattedAdminBooks = adminBooks.map(function(book, index) {
+        return {
+            id: "admin_" + index,
+            title: book.title || "No Title",
+            author: book.author || "Unknown",
+            category: book.category || "General",
+            status: book.status || "Available",
+            coverImage: book.image || "no_cover_available.png",
+            description: book.description || "No description available.",
+            isAdminBook: true
+        };
+    });
+
+    return defaultBooks.concat(formattedAdminBooks);
+}
+
+var booksDatabase = [];
 var searchHistory = [];
 
 window.onload = function() {
+    booksDatabase = getAllBooks();
     loadHistory();
     displayAllBooks();
     
@@ -55,16 +78,16 @@ function handleSearch(event) {
     }
     
     var searchType = getSelectedSearchType();
-    
     performSearch(searchTerm, searchType);
-    
     return true;
 }
 
 function performSearch(searchTerm, searchType) {
+    // تحديث الكتب قبل كل بحث
+    booksDatabase = getAllBooks();
+
     var filteredBooks = [];
     var lowerTerm = searchTerm.toLowerCase();
-    
 
     for (var i = 0; i < booksDatabase.length; i++) {
         var book = booksDatabase[i];
@@ -75,26 +98,16 @@ function performSearch(searchTerm, searchType) {
                 book.category.toLowerCase().indexOf(lowerTerm) !== -1) {
                 filteredBooks.push(book);
             }
-        }
-        else if (searchType === "Title") {
-            if (book.title.toLowerCase().indexOf(lowerTerm) !== -1) {
-                filteredBooks.push(book);
-            }
-        }
-        else if (searchType === "Author") {
-            if (book.author.toLowerCase().indexOf(lowerTerm) !== -1) {
-                filteredBooks.push(book);
-            }
-        }
-        else if (searchType === "Category") {
-            if (book.category.toLowerCase().indexOf(lowerTerm) !== -1) {
-                filteredBooks.push(book);
-            }
+        } else if (searchType === "Title") {
+            if (book.title.toLowerCase().indexOf(lowerTerm) !== -1) filteredBooks.push(book);
+        } else if (searchType === "Author") {
+            if (book.author.toLowerCase().indexOf(lowerTerm) !== -1) filteredBooks.push(book);
+        } else if (searchType === "Category") {
+            if (book.category.toLowerCase().indexOf(lowerTerm) !== -1) filteredBooks.push(book);
         }
     }
     
     addToHistory(searchTerm, searchType);
-    
     displayResults(filteredBooks, searchTerm, searchType);
     
     if (filteredBooks.length === 0) {
@@ -107,7 +120,6 @@ function displayResults(books, searchTerm, searchType) {
     var statsDiv = document.getElementById("searchStats");
     
     if (!container) return;
-    
     
     if (statsDiv) {
         if (searchTerm === "") {
@@ -143,7 +155,6 @@ function displayResults(books, searchTerm, searchType) {
 
 function getSelectedSearchType() {
     var radios = document.getElementsByName("search_by");
-    
     for (var i = 0; i < radios.length; i++) {
         if (radios[i].checked) {
             if (i === 0) return "All";
@@ -152,98 +163,65 @@ function getSelectedSearchType() {
             if (i === 3) return "Category";
         }
     }
-    
-    return "All"; // default
+    return "All";
 }
 
 function showMessage(message, type) {
     var alertDiv = document.getElementById("alertMessage");
     if (!alertDiv) return;
-    
     alertDiv.innerHTML = message;
     alertDiv.className = "alert " + type;
-    
-    // إخفاء الرسالة بعد 3 ثواني
-    setTimeout(function() {
-        alertDiv.style.display = "none";
-    }, 3000);
+    alertDiv.style.display = "block";
+    setTimeout(function() { alertDiv.style.display = "none"; }, 3000);
 }
 
 function addToHistory(term, type) {
     if (term === "") return;
-    
-    var searchRecord = {
-        word: term,
-        searchBy: type,
-        date: new Date().toLocaleString()
-    };
-    
-    
-    searchHistory.unshift(searchRecord);
-    
-
-    if (searchHistory.length > 5) {
-        searchHistory.pop();
-    }
-    
+    searchHistory.unshift({ word: term, searchBy: type, date: new Date().toLocaleString() });
+    if (searchHistory.length > 5) searchHistory.pop();
     localStorage.setItem("mySearchHistory", JSON.stringify(searchHistory));
-    
     displayHistory();
 }
 
 function loadHistory() {
     var saved = localStorage.getItem("mySearchHistory");
-    if (saved) {
-        searchHistory = JSON.parse(saved);
-        displayHistory();
-    }
+    if (saved) { searchHistory = JSON.parse(saved); displayHistory(); }
 }
 
 function displayHistory() {
     var historyDiv = document.getElementById("historyList");
     if (!historyDiv) return;
-    
     if (searchHistory.length === 0) {
         historyDiv.innerHTML = "<span style='color:gray;'>No recent searches</span>";
         return;
     }
-    
     var html = "";
     for (var i = 0; i < searchHistory.length; i++) {
         var item = searchHistory[i];
         html += '<div class="history-item" onclick="repeatSearch(\'' + item.word + '\', \'' + item.searchBy + '\')">';
-        html += item.word + " (" + item.searchBy + ")";
-        html += '</div>';
+        html += item.word + " (" + item.searchBy + ")</div>";
     }
-    
     historyDiv.innerHTML = html;
 }
 
 function repeatSearch(term, type) {
     document.getElementById("searchInput").value = term;
-    
-    
     var radios = document.getElementsByName("search_by");
     var typeMap = {"All":0, "Title":1, "Author":2, "Category":3};
     var index = typeMap[type];
-    if (index !== undefined && radios[index]) {
-        radios[index].checked = true;
-    }
-    
+    if (index !== undefined && radios[index]) radios[index].checked = true;
     performSearch(term, type);
 }
 
 function viewBook(index) {
     const book = booksDatabase[index];
-    
     const params = new URLSearchParams({
         title: book.title,
         author: book.author,
         category: book.category,
-        status: book.status,
+        status: book.status || "Available",
         description: book.description || "No description provided.",
         image: book.coverImage || "no_cover_available.png"
     });
-
     window.location.href = `book_details.html?${params.toString()}`;
 }
