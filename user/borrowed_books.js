@@ -32,8 +32,12 @@ document.addEventListener('DOMContentLoaded', () => { displayBooks(); });
 function returnBook(index) {
     let borrowedBooks = JSON.parse(localStorage.getItem('borrowedBooks')) || [];
 
-    borrowedBooks.splice(index, 1);
+    const returnedBook = borrowedBooks[index];
     
+    borrowedBooks.splice(index, 1);
     localStorage.setItem('borrowedBooks', JSON.stringify(borrowedBooks));
+
+    if(returnedBook) updateBookStatus(returnedBook.title, "Available");
+
     displayBooks();
 }
