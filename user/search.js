@@ -29,9 +29,15 @@ var defaultBooks = [
         description: "Harry Potter and the Philosopher's Stone (1997) by J.K. Rowling is a fantasy novel introducing an orphaned boy who discovers on his eleventh birthday that he is a wizard. Harry escapes his abusive aunt and uncle to attend Hogwarts School of Witchcraft and Wizardry, making friends (Ron and Hermione) and uncovering a plot to steal an ancient stone."
     }
 ];
+// إضافة localStorage
+if (!localStorage.getItem("defaultBooks")) {
+    localStorage.setItem("defaultBooks", JSON.stringify(defaultBooks));
+}
 
 // ====== تحميل كل الكتب (الأساسية + اللي أضافها الأدمن) ======
 function getAllBooks() {
+    //  تعديل: جلب الكتب الأساسية من localStorage مش من defaultBooks الثابتة
+    let defaultBooksFromStorage = JSON.parse(localStorage.getItem("defaultBooks")) || defaultBooks;
     var adminBooks = JSON.parse(localStorage.getItem("books")) || [];
 
     var formattedAdminBooks = adminBooks.map(function(book, index) {
@@ -47,8 +53,9 @@ function getAllBooks() {
         };
     });
 
-    return defaultBooks.concat(formattedAdminBooks);
+    return defaultBooksFromStorage.concat(formattedAdminBooks);
 }
+
 
 var booksDatabase = [];
 var searchHistory = [];
