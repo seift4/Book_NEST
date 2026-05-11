@@ -24,7 +24,7 @@ function checkPass() {
   localStorage.setItem("users", JSON.stringify(users));
 
   alert("Signup successful!");
-  window.location.href = "login.html";
+  window.location.href = "/login/";
 
   return false;
 }
@@ -50,9 +50,9 @@ function loginUser() {
     localStorage.setItem("currentUser", JSON.stringify(user));
 
     if (user.role === "Admin") {
-      window.location.href = "admin/admin_home.html";
+      	window.location.href = "/admin/home/";
     } else {
-      window.location.href = "user/user_home.html";
+      	window.location.href = "/user/home/";
     }
   } else {
     alert("Wrong username or password");
@@ -65,5 +65,5 @@ function loginUser() {
 function logout() {
   console.log("Logout clicked");
   localStorage.removeItem("currentUser");
-  window.location.href = "../login.html";
+  	window.location.href = "/login/";
 }

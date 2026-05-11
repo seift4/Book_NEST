@@ -1,8 +1,9 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Search Books - BookNest Library</title>
-    <link rel="stylesheet" href="search style.css">
+    <link rel="stylesheet" href="{% static 'search style.css' %}">
 </head>
 <body>
 
@@ -12,9 +13,9 @@
     
     <ul>
  
-    <a class="nav-link" href="user_home.html"><li>Home</li></a> 
-    <a class="nav-link" href="search.html"><li>Search Books</li></a> 
-    <a class="nav-link" href="borrowed_books.html"><li>Borrowed Books</li></a> 
+    <a class="nav-link" href="{% url 'user_home' %}"><li>Home</li></a> 
+    <a class="nav-link" href="{% url 'search' %}"><li>Search Books</li></a> 
+    <a class="nav-link" href="{% url 'borrowed_books' %}"><li>Borrowed Books</li></a> 
     <a class="nav-link out" href="#" onclick="logout()">Logout</a>
   </ul>
     <hr>
@@ -61,12 +62,12 @@
 
     <!-- Bottom Links -->
     <div class="bottom-links">
-        <a href="borrowed_books.html">📖 View My Borrowed Books</a>
+        <a href="{% url 'borrowed_books' %}">📖 View My Borrowed Books</a>
         <br><br>
-        <a href="login.html">🚪 Logout</a>
+        <a href="{% url 'login' %}">🚪 Logout</a>
     </div>
 
-    <script src="search.js"></script>
-<script src="../authScript.js"></script>
+    <script src="{% static 'search.js' %}"></script>
+<script src="{% static 'authScript.js' %}"></script>
 </body>
 </html>

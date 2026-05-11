@@ -1,4 +1,4 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Borrowed Books</title>
         <link href="https://googleapis.com" rel="stylesheet">
-        <link rel="stylesheet" href="bookstyle.css">
+        <link rel="stylesheet" href="{% static 'bookstyle.css' %}">
     </head>
 
     <body>
@@ -15,9 +15,9 @@
     
     <ul>
  
-    <a class="nav-link" href="user_home.html"><li>Home</li></a> 
-    <a class="nav-link" href="search.html"><li>Search Books</li></a> 
-    <a class="nav-link" href="borrowed_books.html"><li>Borrowed Books</li></a> 
+    <a class="nav-link" href="{% url 'user_home' %}"><li>Home</li></a> 
+    <a class="nav-link" href="{% url 'search' %}"><li>Search Books</li></a> 
+    <a class="nav-link" href="{% url 'borrowed_books' %}"><li>Borrowed Books</li></a> 
     <a class="nav-link out" href="#" onclick="logout()">Logout</a>
   </ul>
     <hr>
@@ -48,9 +48,9 @@
         <br><br>
         <hr>
         <br><br>
-        <script src="book_details.js"></script>
-        <script src="search.js"></script>
-        <script src="borrowed_books.js"></script>
-        <script src="../authScript.js"></script>
+        <script src="{% static 'book_details.js' %}"></script>
+        <script src="{% static 'search.js' %}"></script>
+        <script src="{% static 'borrowed_books.js' %}"></script>
+        <script src="{% static 'authScript.js' %}"></script>
     </body>
 </html>
