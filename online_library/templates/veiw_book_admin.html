@@ -1,7 +1,8 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="style_veiwbook.css">
+        <link rel="stylesheet" href="{% static style_veiwbook.css %}">
         <title>Veiw Books</title>
     </head>
     <body>
@@ -11,10 +12,10 @@
    
    <ul>
 
-    <a  class="nav-link" href="admin_home.html"><li>Home</li></a> 
-    <a   class="nav-link" href="admin_add_book.html"><li>Add Book</li></a> 
-    <a   class="nav-link" href="veiw_book_admin.html"><li>View Books</li></a>
-    <a   class="nav-link" href="edit_book.html"><li>Edit Books</li></a>
+    <a  class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a> 
+    <a   class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a> 
+    <a   class="nav-link" href="{% url 'veiw_book_admin' %}"><li>View Books</li></a>
+    <a   class="nav-link" href="{% url 'edit_book' %}"><li>Edit Books</li></a>
     <a class="nav-link out" href="#" onclick="logout()">Logout</a>
     
 </ul>
@@ -24,38 +25,33 @@
 
         </div>
         <br>
-        <a href="admin_add_book.html" >
+        <a href="{% url 'admin_add_book' %}" >
             <button class="btn">Add New Book</button>
         </a>
 
 
-        <script src="../authScript.js"></script>
+        <script src="{% static 'authScript.js' %}"></script>
         <script>
             if (!localStorage.getItem("Books")) {
     let books = [
         {
             title: "Harry Potter and the chamber of secrets",
-            price: 200,
             image: "part2.jpg"
         },
         {
             title: "Harry Potter and the prisoner of Azkaban",
-            price: 400,
             image: "part3.jpg"
         },
         {
             title: "Harry Potter and the Goblet of fire",
-            price: 350,
             image: "part4.jpg"
         },
         {
             title: "Harry Potter and the Half-blood prince",
-            price: 500,
             image: "part5.jpg"
         },
         {
             title: "Harry Potter and the deathly hallows",
-            price: 700,
             image: "part6.jpg"
         }
     ];
@@ -71,9 +67,8 @@ books.forEach(function(book ,index) {
     div.className = "harry_potter";
 
     div.innerHTML = `
-        <img src="${book.image}">
+        <img src="{% static 'images/' %}{{ book.image }}">
         <p>${book.title}</p>
-        <p>Price : ${book.price} EGP</p>
         <button  class="btn" , onclick="editBook(${index})">Edit </button>
         <button  class="btn" , onclick="deleteBook(${index})">Delete</button>
     `;
@@ -90,7 +85,7 @@ function deleteBook(index) {
     location.reload();
 }
 function editBook(index) {
-    window.location.href = "edit_book.html?index=" + index;
+    window.location.href = "{% url 'edit_book' 0 %}".replace('0', index);
 }
         </script>
     </body>

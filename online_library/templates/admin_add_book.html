@@ -1,9 +1,9 @@
-
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
         <title> Add book (Admin) </title>
-        <link rel="stylesheet" href="style_addBook.css">
+        <link rel="stylesheet" href="{% static 'style_addBook.css' %}">
     </head>
 
     <body>
@@ -12,10 +12,10 @@
    
    <ul>
 
-    <a  class="nav-link" href="admin_home.html"><li>Home</li></a> 
-    <a   class="nav-link" href="admin_add_book.html"><li>Add Book</li></a> 
-    <a   class="nav-link" href="veiw_book_admin.html"><li>View Books</li></a>
-    <a   class="nav-link" href="edit_book.html"><li>Edit Books</li></a>
+    <a  class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a> 
+    <a   class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a> 
+    <a   class="nav-link" href="{% url 'veiw_book_admin' %}"><li>View Books</li></a>
+    <a   class="nav-link" href="{% url 'edit_book' %}"><li>Edit Books</li></a>
     <a class="nav-link out" href="#" onclick="logout()">Logout</a> 
     
 </ul>
@@ -68,10 +68,6 @@
             </div>
             
             <div>
-              <label for="bookPrice">Price: </label>
-              <input type="number" id="bookPrice" name="bookPrice" placeholder="price" required>  
-            </div>
-            <div>
               <label for="bookImage">Book Image:</label><br>
               <input type="file" id="bookImage" accept="image/*" required>
             </div>
@@ -82,7 +78,7 @@
                 <button id="submit" type="submit">Add</button>
             </div>
         </form>
-        <script src="../authScript.js"></script>
+        <script src="{% static 'authScript.js' %}"></script>
         <script>
             
           document.getElementById("bookForm").onsubmit = function(e) {
@@ -93,7 +89,6 @@
           let author = document.getElementById("bookAuthor").value;
           let category = document.getElementById("category").value;
           let description = document.getElementById("bookDescription").value;
-          let price = document.getElementById("bookPrice").value;
 
          let fileInput = document.getElementById("bookImage");
          let file = fileInput.files[0];
@@ -111,7 +106,6 @@
             author: author,
             category: category,
             description: description,
-            price: price,
             image: imageBase64
         });
 
@@ -119,7 +113,7 @@
 
         alert("Book Added Successfully ✅");
 
-        window.location.href = "veiw_book_admin.html";
+        window.location.href = "{% url 'veiw_book_admin' %}";
     };
 
     if (file) {
