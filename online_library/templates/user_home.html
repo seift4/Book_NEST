@@ -1,5 +1,4 @@
-
-
+{% load static %}
 <!DOCTYPE html>
 
 <html lang="en">
@@ -7,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>BookNest Library - User Home</title>
-    <link rel="stylesheet" href="user_home.css">
+    <link rel="stylesheet" href="{% static 'user_home.css' %}">
 </head>
 
 <body>
@@ -17,9 +16,9 @@
     
     <ul>
  
-    <a class="nav-link" href="user_home.html"><li>Home</li></a> 
-    <a class="nav-link" href="search.html"><li>Search Books</li></a> 
-    <a class="nav-link" href="borrowed_books.html"><li>Borrowed Books</li></a> 
+    <a class="nav-link" href="{% url 'user_home' %}"><li>Home</li></a> 
+    <a class="nav-link" href="{% url 'search' %}"><li>Search Books</li></a> 
+    <a class="nav-link" href="{% url 'borrowed_books' %}"><li>Borrowed Books</li></a> 
     <a class="nav-link out" href="#" onclick="logout()">Logout</a>
 
   </ul>
@@ -50,7 +49,7 @@
             <strong>Search for Books</strong><br>
             Find books by title, author, or category quickly.
             <br><br>
-            <a href="search.html">
+            <a href="{% url 'search' %}">
                 <button>Search Books</button>
             </a>
         </li>
@@ -63,7 +62,7 @@
             <strong>My Borrowed Books</strong><br>
             View the list of books you have borrowed from the library.
             <br><br>
-            <a href="borrowed_books.html">
+            <a href="{% url 'borrowed_books' %}">
                 <button>View My Books</button>
             </a>
         </li>
@@ -85,12 +84,12 @@
 
 <hr>
 
-<script src="../authScript.js"></script>
+<script src="{% static 'authScript.js' %}"></script>
 <script>
 const user = JSON.parse(localStorage.getItem("currentUser"));
 
 if (!user) {
-  window.location.href = "login.html";
+  window.location.href = "{% url 'login' %}";
 }
 </script>
 </body>

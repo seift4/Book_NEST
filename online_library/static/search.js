@@ -223,5 +223,5 @@ function repeatSearch(term, type) {
 function viewBook(index) {
     const book = booksDatabase[index];
     localStorage.setItem('selectedBook', JSON.stringify(book));
-    window.location.href = "book_details.html";
+    window.location.href = "/user/book/" + bookId + "/";
 }

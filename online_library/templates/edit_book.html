@@ -1,7 +1,8 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="style_editbook.css">
+        <link rel="stylesheet" href="{% static 'style_editbook.css' %}">
         <title> Edit Book </title>
     </head>
     <body>
@@ -10,10 +11,10 @@
    
    <ul>
 
-    <a  class="nav-link" href="admin_home.html"><li>Home</li></a> 
-    <a   class="nav-link" href="admin_add_book.html"><li>Add Book</li></a> 
-    <a   class="nav-link" href="veiw_book_admin.html"><li>View Books</li></a>
-    <a   class="nav-link" href="edit_book.html"><li>Edit Books</li></a>
+    <a  class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a> 
+    <a   class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a> 
+    <a   class="nav-link" href="{% url 'veiw_book_admin' %}"><li>View Books</li></a>
+    <a   class="nav-link" href="{% url 'edit_book' %}"><li>Edit Books</li></a>
     <a class="nav-link out" href="#" onclick="logout()">Logout</a>
     
 </ul>
@@ -38,15 +39,13 @@
                 <option value="children">Children</option>
             </select>
             <br><br>
-            <label>Price:</label><br>
-            <input type="number" value="150" id="price"><br><br>
             <label>Descreption:</label><br>
             <textarea id="description"></textarea><br><br>
             <button type="sumbit" class="btn">Edit Book</button>
         </form>
         </div>
         <br>
-        <a href="veiw_book_admin.html">
+        <a href="{% url 'veiw_book_admin' %}">
             <button class="btn">Veiw Books</button>
         </a>
 
@@ -54,7 +53,7 @@
 
 
 
-        <script src="../authScript.js"></script>
+        <script src="{% static 'authScript.js' %}"></script>
         <script>
             let p = new URLSearchParams(window.location.search);
             let index = p.get("index");
@@ -63,7 +62,6 @@
             let book = books[index];
             document.getElementById("title").value = book.title;
             document.getElementById("author").value = book.author;
-            document.getElementById("price").value = book.price;
             document.getElementById("description").value = book.description || "";
             document.getElementById("category").value = book.category || "";
 
@@ -75,7 +73,6 @@
            ...book,
            title: document.getElementById("title").value,
            author: document.getElementById("author").value,
-           price: document.getElementById("price").value,
            category: document.getElementById("category").value,
            description: document.getElementById("description").value
          };
@@ -84,7 +81,7 @@
 
     alert("Book Updated Successfully ✅");
 
-    window.location.href = "veiw_book_admin.html";
+    window.location.href = "{% url 'veiw_book_admin' %}";
 };
         </script>
     </body>

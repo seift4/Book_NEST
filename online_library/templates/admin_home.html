@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 
 <html lang="en">
@@ -6,7 +7,7 @@
     <meta charset="UTF-8">
     <title>BookNest Library - Admin Dashboard</title>
 
-        <link rel="stylesheet" href="admin_home.css">
+        <link rel="stylesheet" href="{% static 'admin_home.css' %}">
 </head>
 
 <body>
@@ -15,10 +16,10 @@
    
    <ul>
 
-    <a  class="nav-link" href="admin_home.html"><li>Home</li></a> 
-    <a   class="nav-link" href="admin_add_book.html"><li>Add Book</li></a> 
-    <a   class="nav-link" href="veiw_book_admin.html"><li>View Books</li></a>
-    <a   class="nav-link" href="edit_book.html"><li>Edit Books</li></a>
+    <a  class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a> 
+    <a   class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a> 
+    <a   class="nav-link" href="{% url 'veiw_book_admin' %}"><li>View Books</li></a>
+    <a   class="nav-link" href="{% url 'edit_book' %}"><li>Edit Books</li></a>
     <a class="nav-link out" href="#" onclick="logout()">Logout</a>
     
 </ul>
@@ -48,7 +49,7 @@
             <strong>Add New Book</strong><br>
             Insert new books into the library database including title, author, category and description.
             <br><br>
-            <a href="admin_add_book.html">
+            <a href="{% url 'admin_add_book' %}">
                 <button>Add Book</button>
             </a>
         </li>
@@ -59,7 +60,7 @@
             <strong>View All Books</strong><br>
             Browse all available books currently listed in the library.
             <br><br>
-            <a href="veiw_book_admin.html">
+            <a href="{% url 'veiw_book_admin' %}">
                 <button>View Books</button>
             </a>
         </li>
@@ -70,7 +71,7 @@
             <strong>Manage Books</strong><br>
             Edit existing book information or remove books from the system.
             <br><br>
-            <a href="edit_book.html">
+            <a href="{% url 'edit_book' %}">
                 <button>Manage Library</button>
             </a>
         </li>
@@ -91,12 +92,12 @@
 </section>
 
 <hr>
-<script src="../authScript.js"></script>
+<script src="{% static 'authScript.js' %}"></script>
 <script>
 const user = JSON.parse(localStorage.getItem("currentUser"));
 
 if (!user || user.role !== "Admin") {
-  window.location.href = "login.html";
+  window.location.href = "{% url 'login' %}";
 }
 </script>
 </body>

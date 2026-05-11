@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!savedBook) {
         alert("No book selected!");
-        window.location.href = "search.html";
+        window.location.href = "/user/borrowed/";
         return;
     }
 
@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('bookCategory').innerText = book.category || "No info.";
     document.getElementById('bookStatus').innerText = book.status || "No info.";
     document.getElementById('bookDescription').innerText = book.description || "No info.";
-    document.getElementById('bookCover').src = book.coverImage || "no_cover_available.png";
+
+    const staticPath = "/static/images/"; 
+    document.getElementById('bookCover').src = book.coverImage ? staticPath + book.coverImage : staticPath + "no_cover_available.png";
 
     const borrowBtn = document.getElementById('borrowBtn');
     
@@ -51,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             localStorage.setItem('borrowedBooks', JSON.stringify(currentBorrowed));
             alert("Book borrowed successfully!");
-            window.location.href = "borrowed_books.html";
+            window.location.href = "/user/borrowed/";
         };
     }
 });
