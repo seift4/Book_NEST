@@ -1,88 +1,32 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="{% static 'style_editbook.css' %}">
-        <title> Edit Book </title>
-    </head>
-    <body>
-        <nav>
-    <h2 class="logo">📚 BookNest Library</h2>
-   
-   <ul>
+<head>
+    <title>Edit Book</title>
+    <link rel="stylesheet" href="{% static 'style_editbook.css' %}">
+</head>
+<body>
+    <nav>
+        <h2 class="logo">📚 BookNest Library</h2>
+        <ul>
+            <a class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a>
+            <a class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a>
+            <a class="nav-link" href="{% url 'view_books_admin' %}"><li>View Books</li></a>
+            <a class="nav-link out" href="{% url 'logout' %}">Logout</a>
+        </ul>
+    </nav>
 
-    <a  class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a> 
-    <a   class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a> 
-    <a   class="nav-link" href="{% url 'veiw_book_admin' %}"><li>View Books</li></a>
-    <a   class="nav-link" href="{% url 'edit_book' %}"><li>Edit Books</li></a>
-    <a class="nav-link out" href="#" onclick="logout()">Logout</a>
-    
-</ul>
-</nav>
-        <h2> Edit Book</h2>
-        <div id="form">
-        <form>
-            <label>Book Title:</label><br>
-            <input type="text" value="Harry Potter" id="title"><br><br>
-            <label>Author:</label><br>
-            <input type="text" value="J.K Rowling" id="author" ><br><br>
-            <label>Category:</label><br>
-            <select id="category" name="bookCategory" required>
-                <option value="" disabled selected> Select a category: </option>
-                <option value="fiction">Fiction</option>
-                <option value="non-fiction">Non-Fiction</option>
-                <option value="science">Science</option>
-                <option value="history">History</option>
-                <option value="technology">Technology</option>
-                <option value="business">Business</option>
-                <option value="self-help">Self-Help</option>
-                <option value="children">Children</option>
-            </select>
-            <br><br>
-            <label>Descreption:</label><br>
-            <textarea id="description"></textarea><br><br>
-            <button type="sumbit" class="btn">Edit Book</button>
-        </form>
-        </div>
-        <br>
-        <a href="{% url 'veiw_book_admin' %}">
-            <button class="btn">Veiw Books</button>
-        </a>
+    <h2>Edit Book</h2>
 
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Changes</button>
+    </form>
 
-
-
-
-        <script src="{% static 'authScript.js' %}"></script>
-        <script>
-            let p = new URLSearchParams(window.location.search);
-            let index = p.get("index");
-
-            let books = JSON.parse(localStorage.getItem("books")) || [];
-            let book = books[index];
-            document.getElementById("title").value = book.title;
-            document.getElementById("author").value = book.author;
-            document.getElementById("description").value = book.description || "";
-            document.getElementById("category").value = book.category || "";
-
-
-            document.getElementById("form").onsubmit = function(e) {
-           e.preventDefault();
-
-           books[index] = {
-           ...book,
-           title: document.getElementById("title").value,
-           author: document.getElementById("author").value,
-           category: document.getElementById("category").value,
-           description: document.getElementById("description").value
-         };
-
-    localStorage.setItem("books", JSON.stringify(books));
-
-    alert("Book Updated Successfully ✅");
-
-    window.location.href = "{% url 'veiw_book_admin' %}";
-};
-        </script>
-    </body>
+    <br>
+    <a href="{% url 'view_books_admin' %}">
+        <button class="btn">Back to Books</button>
+    </a>
+</body>
 </html>

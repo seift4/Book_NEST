@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'style_viewbook.css' %}">
+
+        <title>Veiw Books</title>
+    </head>
+    <body>
+    
+        <nav>
+    <h2 class="logo">📚 BookNest Library</h2>
+   
+   <ul>
+
+<a class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a>
+<a class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a>
+<a class="nav-link" href="{% url 'view_books_admin' %}"><li>View Books</li></a>
+<a class="nav-link out" href="{% url 'logout' %}">Logout</a>
+
+    
+</ul>
+</nav>
+        <h2>Books List</h2>
+        <div id="books">
+          {% for book in books %}
+<div class="book-card">
+    {% if book.image %}
+        <img src="{{ book.image.url }}" alt="{{ book.title }}">
+    {% endif %}
+    <p><strong>{{ book.title }}</strong> by {{ book.author }}</p>
+    <p>Category: {{ book.category }}</p>
+     <p>Price: {{ book.price }} EGP</p>
+    <p>{{ book.description }}</p>
+    <a href="{% url 'edit_book' book.id %}">Edit</a>
+    <a href="{% url 'delete_book' book.id %}">Delete</a>
+</div>
+{% endfor %}
+    </div>
+    </body>
+</html>

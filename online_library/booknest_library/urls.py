@@ -15,11 +15,12 @@ urlpatterns = [
     path('user/borrowed/', views.borrowed_books, name='borrowed_books'),
 
     # Admin routes
-    path('admin/home/', views.admin_home, name='admin_home'),
-    path('admin/add-book/', views.admin_add_book, name='admin_add_book'),
-    path('admin/view-books/', views.view_books_admin, name='view_books_admin'),
-    path('admin/edit-book/<int:book_id>/', views.edit_book, name='edit_book'),
-    path('admin/delete-book/<int:book_id>/', views.delete_book, name='delete_book'),
+     path('dashboard/home/', views.admin_home, name='admin_home'),
+    path('dashboard/add-book/', views.admin_add_book, name='admin_add_book'),
+    path('dashboard/view-books/', views.view_books_admin, name='view_books_admin'),
+
+    path('dashboard/edit-book/<int:book_id>/', views.edit_book, name='edit_book'),
+    path('dashboard/delete-book/<int:book_id>/', views.delete_book, name='delete_book'),
 
     # API routes
     path('api/books/', views.api_books_list, name='api_books_list'),

@@ -131,3 +131,9 @@ def api_book_detail(request, book_id):
         'is_available': book.is_available,
     }
     return JsonResponse(data)
+
+def view_books_admin(request):
+    books = Book.objects.all()
+    return render(request, 'view_book_admin.html', {'books': books})
+
+

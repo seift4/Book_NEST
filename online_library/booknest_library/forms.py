@@ -31,7 +31,7 @@ class LoginForm(AuthenticationForm):
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['book_id', 'title', 'author', 'category', 'description', 'image']
+        fields = ['book_id', 'title', 'author', 'category','price', 'description', 'image']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 5, 'cols': 35, 'placeholder': 'Write the book description here...'}),
         }
