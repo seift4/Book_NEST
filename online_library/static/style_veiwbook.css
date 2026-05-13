@@ -1,0 +1,135 @@
+body{
+        font-family: Arial, sans-serif;
+}
+/* Navbar */
+nav {
+    background-color: #ffffff;
+    color: #1D293F;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Logo */
+.logo {
+    margin: 0;
+    font-size: 20px;
+}
+
+/* Nav Links Container */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Links */
+.nav-link {
+
+    text-decoration: none;
+    color: #1D293F;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+/* Remove default li style */
+nav li {
+        font-size: 15px;
+    list-style: none;
+}
+
+.nav-link:not(.out):hover {
+  /* ضع التنسيقات التي تريدها هنا */
+  color: blue; /* مثال لتغيير اللون */
+  text-decoration: underline; 
+}
+
+
+.out{
+    position: relative;
+    bottom: 3px;
+    background-color: #1D293F;
+    padding: 6px;
+    color: #ffffff;
+    border-radius: 12px;
+
+}
+.out:hover{
+    background-color: #ffffff;
+    padding: 6px;
+    color: #1D293F;
+}
+
+
+
+
+
+
+
+
+
+h2{
+    font-size: 40px;
+    font-weight: 700;
+    color:#1D293F;
+}
+body {
+    background-color:  #ffffff ;
+     font-family: 'Sora', sans-serif;
+    
+}
+#Books{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  padding: 20px;
+  align-items: start;
+}
+.harry_potter {
+   background: #ffffff ;
+  padding: 10px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 320px;
+}
+.harry_potter img {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+}
+.harry_potter p {
+  color: #1D293F;
+  font-family: sans-serif;
+  margin: 5px 0;
+}
+.btn{
+    background-color: #1D293F;
+    color:   #ffffff ;
+    border :2px solid E0E8F5;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: 0.3s;
+  
+}
+.btn:hover{
+ background-color: #2643D1;
+  color: white;
+}
+.btn:visited{
+        background-color:  #ffffff ;
+    color: #2643D1;
+    border :2px solid E0E8F5;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: 0.3s;
+}

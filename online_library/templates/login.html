@@ -2,48 +2,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title> Log-in </title>
+    <title>Log-in</title>
     <link rel="stylesheet" href="{% static 'style1.css' %}">
-    <style>
-
-
-    </style>
 </head>
 
 <body>
 <nav>
     <h2 class="logo">📚 BookNest Library</h2>
     <ul>
-    <a class="nav-link" href="{% url 'index' %}"><li>Home</li></a> 
-    <a class="nav-link" href="{% url 'login' %}"><li>Login</li></a> 
-    <a class="nav-link" href="{% url 'signup' %}"><li>Sign Up</li></a>
+        <a class="nav-link" href="{% url 'index' %}"><li>Home</li></a> 
+        <a class="nav-link" href="{% url 'login' %}"><li>Login</li></a> 
+        <a class="nav-link" href="{% url 'signup' %}"><li>Sign Up</li></a>
     </ul>
 </nav>
 
-    <form onsubmit="return loginUser()">
+    <form method="POST" action="{% url 'login' %}">
+        {% csrf_token %}
+        
+        {% if form.non_field_errors %}
+            <div class="error">
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
         <div>
-            <label for="username"> Email or Username: </label>
-            <input type = "text" id="username" name="username/email" placeholder="email/username" maxlength="10" required >
+            <label for="id_username">Username:</label>
+            <input type="text" name="username" id="id_username" placeholder="Username" required>
+            {% if form.username.errors %}
+                <div class="error">{{ form.username.errors.0 }}</div>
+            {% endif %}
         </div>
 
         <br>
 
         <div>
-            <label for="password"> Password: </label>
-            <input type="password" id="password" name="password" placeholder="password" maxlength="10" required>
+            <label for="id_password">Password:</label>
+            <input type="password" name="password" id="id_password" placeholder="Password" required>
+            {% if form.password.errors %}
+                <div class="error">{{ form.password.errors.0 }}</div>
+            {% endif %}
         </div>
         
         <br>
 
         <div>
-            <button id="reset" type="reset"> Reset </button>
-            <button id="submit" type="submit"> Login </button>
+            <button type="reset">Reset</button>
+            <button type="submit">Login</button>
         </div>
     </form>
 
-            
-<script src="{% static 'authScript.js' %}"></script>
 </body>
-
-
 </html>

@@ -10,7 +10,7 @@ urlpatterns = [
 
     # User routes
     path('user/home/', views.user_home, name='user_home'),
-    path('user/search/', views.search_books, name='search_books'),
+    path('user/search/', views.search_books, name='search'),
     path('user/book/<int:book_id>/', views.book_details, name='book_details'),
     path('user/borrowed/', views.borrowed_books, name='borrowed_books'),
 

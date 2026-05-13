@@ -1,75 +1,27 @@
 {% load static %}
-<!DOCTYPE HTML>
-
+<!DOCTYPE html>
 <html>
-    <head>
-        <title> Sign-up </title>
-        <link rel="stylesheet" href="{% static 'style1.css' %}">
-        <script src="{% static 'authScript.js' %}"></script>
+<head>
+    <title>Sign-up</title>
+    <link rel="stylesheet" href="{% static 'style1.css' %}">
+</head>
 
-    </head>
-
-    <body>
+<body>
 <nav>
     <h2 class="logo">📚 BookNest Library</h2>
     <ul>
-    <a class="nav-link" href="{% url 'index' %}"><li>Home</li></a> 
-    <a class="nav-link" href="{% url 'login' %}"><li>Login</li></a> 
-    <a class="nav-link" href="{% url 'signup' %}"><li>Sign Up</li></a>
+        <a class="nav-link" href="{% url 'index' %}"><li>Home</li></a> 
+        <a class="nav-link" href="{% url 'login' %}"><li>Login</li></a> 
+        <a class="nav-link" href="{% url 'signup' %}"><li>Sign Up</li></a>
     </ul>
 </nav>
 
-        <form onsubmit="return checkPass()" onreset="removeError()">
-            <div>
-                <label for="username"> Username: </label>
-                <input type="text" id="username" name="username" placeholder="username" maxlength="10" required>
-            </div>
-
-            <br>
-
-            <div>
-                <label for="pass"> Password: </label>
-                <input type="password" id="pass" name="password" placeholder="password" maxlength="10" required>
-            </div>
-
-            <br>
-            
-            <div>
-                <label for="confirmPass"> Confirm Password: </label>
-                <input type="password" id="confirmPass" name="confirmPassword" placeholder="confirm password" maxlength="10" required>
-            </div>
-
-        
-            <br>
-            
-            <div>
-                <label for="email"> Email: </label>
-                <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
-            </div>
-
-            <br>
-            
-            <div>
-
-            <br>
-
-            <label for="admin"> Admin </label>
-            <input type="radio" id="admin" name="is_admin" value="Admin" required>
-            
-            <label for="user"> User </label>
-            <input type="radio" id="user" name="is_admin" value="User">
-            </div>
-
-            <br> 
-
-            <button id="reset" type="reset"> Reset </button>
-            <button id="submit" type="submit"> Signup </button>
-
-            <p id="error">
-                <span id="errorMark"> ! </span>
-                Passwords do not match!
-            </p>
-        </form>
-    <script src="{% static 'authScript.js' %}"></script>
-    </body>
+    <form method="POST" action="{% url 'signup' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="reset">Reset</button>
+    <button type="submit">Signup</button>
+</form>
+    
+</body>
 </html>
