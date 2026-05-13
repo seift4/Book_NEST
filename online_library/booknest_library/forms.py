@@ -15,6 +15,10 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'role', 'password1', 'password2']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].help_text = None
 
 
 class LoginForm(AuthenticationForm):
@@ -28,7 +32,7 @@ class LoginForm(AuthenticationForm):
 class BookForm(forms.ModelForm):
     class Meta:
         model = Book
-        fields = ['book_id', 'title', 'author', 'category','price', 'description', 'image']
+        fields = ['book_id', 'title', 'author', 'category', 'description', 'image']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 5, 'cols': 35, 'placeholder': 'Write the book description here...'}),
         }

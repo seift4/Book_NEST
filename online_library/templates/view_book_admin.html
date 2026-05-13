@@ -30,7 +30,6 @@
     {% endif %}
     <p><strong>{{ book.title }}</strong> by {{ book.author }}</p>
     <p>Category: {{ book.category }}</p>
-     <p>Price: {{ book.price }} EGP</p>
     <p>{{ book.description }}</p>
     <a href="{% url 'edit_book' book.id %}">Edit</a>
     <a href="{% url 'delete_book' book.id %}">Delete</a>

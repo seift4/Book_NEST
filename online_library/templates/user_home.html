@@ -85,13 +85,7 @@
 <hr>
 
 <script src="{% static 'authScript.js' %}"></script>
-<script>
-const user = JSON.parse(localStorage.getItem("currentUser"));
 
-if (!user) {
-  window.location.href = "{% url 'login' %}";
-}
-</script>
 </body>
 
 </html>

@@ -112,14 +112,6 @@ h2 {
     font-size: 16px;     
 }
 
-/* Price styling */
-.book-card p.price {
-    font-weight: bold;
-    color: #2643D1;
-    margin-top: 12px;
-    font-size: 17px;
-}
-
 /* Buttons */
 .book-card a {
     display: inline-block;
