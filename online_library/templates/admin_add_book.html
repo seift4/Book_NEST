@@ -14,7 +14,8 @@
 
     <a  class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a> 
     <a   class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a> 
-    <a   class="nav-link" href="{% url 'veiw_book_admin' %}"><li>View Books</li></a>
+    <a class="nav-link" href="{% url 'view_books_admin' %}"><li>View Books</li></a>
+
     <a   class="nav-link" href="{% url 'edit_book' %}"><li>Edit Books</li></a>
     <a class="nav-link out" href="#" onclick="logout()">Logout</a> 
     
@@ -22,105 +23,12 @@
 </nav>
         <h1> Add book </h1>
 
-        <form id="bookForm">
-            <div>
-            <label for="bookID">ID: </label><br>
-            <input type="text" id="bookID" name="bookID" placeholder="ID" required>
-            </div>
+        <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add</button>
+         </form>
 
-            <br>
-
-            <div>
-            <label for="bookName">Name: </label><br>
-            <input type="text" id="bookName" name="bookName" placeholder="name" required>
-            </div>
-            
-            <br>
-
-            <div>
-            <label for="bookAuthor">Author: </label><br>
-            <input type="text" id="bookAuthor" name="bookAuthor" placeholder="author" required>
-            </div>
-
-            <br>
-
-            <div>
-                <label for="category"> Category: </label><br>
-                <select id="category" name="bookCategory" required>
-                    <option value="" disabled selected> Select a category: </option>
-                    <option value="fiction">Fiction</option>
-                    <option value="non-fiction">Non-Fiction</option>
-                    <option value="science">Science</option>
-                    <option value="history">History</option>
-                    <option value="technology">Technology</option>
-                    <option value="business">Business</option>
-                    <option value="self-help">Self-Help</option>
-                    <option value="children">Children</option>
-                </select>
-            </div>
-
-            <br> 
-            
-            <div>
-                <label for="bookDescription">Description: </label>
-                <br>
-                <textarea id="bookDescription" name="bookDescription" rows="5" cols="35" placeholder="Write the book description here..."></textarea>
-            </div>
-            
-            <div>
-              <label for="bookImage">Book Image:</label><br>
-              <input type="file" id="bookImage" accept="image/*" required>
-            </div>
-            <br> 
-            
-            <div class="buttons">
-                <button id="reset" type="reset">Reset</button>
-                <button id="submit" type="submit">Add</button>
-            </div>
-        </form>
-        <script src="{% static 'authScript.js' %}"></script>
-        <script>
-            
-          document.getElementById("bookForm").onsubmit = function(e) {
-          e.preventDefault();
-
-          let id = document.getElementById("bookID").value;
-          let title = document.getElementById("bookName").value;
-          let author = document.getElementById("bookAuthor").value;
-          let category = document.getElementById("category").value;
-          let description = document.getElementById("bookDescription").value;
-
-         let fileInput = document.getElementById("bookImage");
-         let file = fileInput.files[0];
-
-        let reader = new FileReader();
-
-       reader.onload = function() {
-          let imageBase64 = reader.result; 
-
-           let books = JSON.parse(localStorage.getItem("books")) || [];
-
-        books.push({
-            id: id,
-            title: title,
-            author: author,
-            category: category,
-            description: description,
-            image: imageBase64
-        });
-
-        localStorage.setItem("books", JSON.stringify(books));
-
-        alert("Book Added Successfully ✅");
-
-        window.location.href = "{% url 'veiw_book_admin' %}";
-    };
-
-    if (file) {
-        reader.readAsDataURL(file); 
-    }
-    };
-        </script>
     </body>
 
 

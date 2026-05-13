@@ -146,7 +146,7 @@ def api_borrow_book(request, book_id):
     if BorrowRecord.objects.filter(user=request.user, book=book, returned=False).exists():
         return JsonResponse({'success': False, 'error': 'Already borrowed'})
     
-    due_date = timezone.now() + timezone.timedelta(days=60)
+    due_date = timezone.now() + timezone.timedelta(days=30)
     record = BorrowRecord.objects.create(
         user=request.user,
         book=book,
