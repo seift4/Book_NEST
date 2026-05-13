@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Add book (Admin) </title>
+        <link rel="stylesheet" href="{% static 'style_addBook.css' %}">
+    </head>
+
+    <body>
+        <nav>
+    <h2 class="logo">📚 BookNest Library</h2>
+   
+   <ul>
+
+    <a  class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a> 
+    <a   class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a> 
+    <a class="nav-link" href="{% url 'view_books_admin' %}"><li>View Books</li></a>
+
+    <a   class="nav-link" href="{% url 'edit_book' %}"><li>Edit Books</li></a>
+    <a class="nav-link out" href="#" onclick="logout()">Logout</a> 
+    
+</ul>
+</nav>
+        <h1> Add book </h1>
+
+        <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add</button>
+         </form>
+
+    </body>
+
+
+</html>

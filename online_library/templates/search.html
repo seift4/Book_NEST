@@ -1,22 +1,25 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Search Books - BookNest Library</title>
-    <link rel="stylesheet" href="search style.css">
+    <link rel="stylesheet" href="{% static 'search style.css' %}">
 </head>
 <body>
 
     <!-- Navigation Bar -->
-    <nav>
-        <h2>📚 BookNest Library</h2>
-        <ul>
-            <a href="user_home.html"><li>Home</li></a>
-            <a href="search.html"><li>Search Books</li></a>
-            <a href="book_details.html"><li>Books details</li></a>
-            <a href="borrowed_books.html"><li>Borrowed Books</li></a>
-            <a href="login.html"><li>Logout</li></a>
-        </ul>
-    </nav>
+<nav>
+    <h2 class="logo">📚 BookNest Library</h2>
+    
+    <ul>
+ 
+    <a class="nav-link" href="{% url 'user_home' %}"><li>Home</li></a> 
+    <a class="nav-link" href="{% url 'search' %}"><li>Search Books</li></a> 
+    <a class="nav-link" href="{% url 'borrowed_books' %}"><li>Borrowed Books</li></a> 
+    <a class="nav-link out" href="#" onclick="logout()">Logout</a>
+  </ul>
+    <hr>
+</nav>
 
     <!-- Page Title -->
     <h2>🔍 Search for Books</h2>
@@ -59,12 +62,12 @@
 
     <!-- Bottom Links -->
     <div class="bottom-links">
-        <a href="borrowed_books.html">📖 View My Borrowed Books</a>
+        <a href="{% url 'borrowed_books' %}">📖 View My Borrowed Books</a>
         <br><br>
-        <a href="login.html">🚪 Logout</a>
+        <a href="{% url 'login' %}">🚪 Logout</a>
     </div>
 
-    <script src="search.js"></script>
-
+    <script src="{% static 'search.js' %}"></script>
+<script src="{% static 'authScript.js' %}"></script>
 </body>
 </html>
