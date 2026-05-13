@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Borrowed Books</title>
-        <link href="https://googleapis.com" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'bookstyle.css' %}">
     </head>
 
@@ -31,15 +31,15 @@
                     <th width="300"> Book Title </th>
                     <th width="200"> Author </th>
                     <th width="200"> Category </th>
-                    <th width="100"> Date Borrowed </th>
-                    <th width="100"> Due Date </th>
-                    <th width="100"> Action </th>
+                    <th width="120"> Date Borrowed </th>
+                    <th width="120"> Due Date </th>
+                    <th width="120"> Action </th>
                 </tr>
             </thead>
             <tbody id="tableBody">
                 <tr>
                     <td colspan="6" style="text-align: center; padding: 20px;"> 
-                        <i>No books borrowed yet. Use the Search page to find a book!</i> 
+                        <i>Loading borrowed books...</i> 
                     </td>
                 </tr>
             </tbody>
@@ -48,8 +48,7 @@
         <br><br>
         <hr>
         <br><br>
-        <script src="{% static 'book_details.js' %}"></script>
-        <script src="{% static 'search.js' %}"></script>
+        <script src="{% static 'csrf_utils.js' %}"></script>
         <script src="{% static 'borrowed_books.js' %}"></script>
         <script src="{% static 'authScript.js' %}"></script>
     </body>
