@@ -1,43 +1,86 @@
+document.addEventListener('DOMContentLoaded', () => {
+    fetchBorrowedBooks();
+});
 
-function displayBooks() {
+function fetchBorrowedBooks() {
+    fetch('/api/my-borrowed-books/').then(response => response.json())
+        .then(data => { displayBooks(data.records); }).catch(error => {
+            console.error('Error fetching borrowed books:', error);
+            
+            document.getElementById('tableBody').innerHTML = `
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 20px;">
+                        <i>Error loading borrowed books. Please refresh.</i>
+                    </td>
+                </tr>
+            `;
+        });
+}
 
+function displayBooks(records) {
     const tableBody = document.getElementById("tableBody");
-    const borrowedBooks = JSON.parse(localStorage.getItem('borrowedBooks')) || [];
-
     tableBody.innerHTML = "";
 
-    if(borrowedBooks.length === 0) {
-        tableBody.innerHTML = `<tr>
-                <td colspan="6" style="text-align: center; padding: 20px;"> 
-                    <i>No books borrowed yet. Use the Search page to find a book!</i> 
+    if(records.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 20px;">
+                    <i>No books borrowed yet. Use the Search page to find a book!</i>
                 </td>
-            </tr>`;
+            </tr>
+        `;
         return;
     }
 
-    borrowedBooks.forEach((book, index) => {
+    records.forEach(record => {
         const row = tableBody.insertRow();
-
-        row.innerHTML = `<td>${book.title}</td>
-            <td>${book.author}</td>
-            <td>${book.category}</td>
-            <td>${book.dateBorrowed}</td>
-            <td>${book.dueDate}</td>
-            <td><button onclick="returnBook(${index})">Return</button></td>
-        `;
+        row.setAttribute('data-record-id', record.id);
+        
+        row.innerHTML = `<td>${record.book_title}</td>
+            <td>${record.book_author}</td>
+            <td>${record.book_category}</td>
+            <td>${record.date_borrowed}</td>
+            <td>${record.due_date}</td>
+            <td><button class="return-btn" onclick="returnBook(${record.id})">Return</button></td>`;
     });
 }
-document.addEventListener('DOMContentLoaded', () => { displayBooks(); });
 
-function returnBook(index) {
-    let borrowedBooks = JSON.parse(localStorage.getItem('borrowedBooks')) || [];
+function returnBook(recordId) {
+    if(!confirm("Are you sure you want to return this book?")) return;
 
-    const returnedBook = borrowedBooks[index];
-    
-    borrowedBooks.splice(index, 1);
-    localStorage.setItem('borrowedBooks', JSON.stringify(borrowedBooks));
+    fetch(`/api/return-book/${recordId}/`, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json'
+        }
+        
+    }).then(response => response.json()).then(data => {
+        if(data.success) {
 
-    if(returnedBook) updateBookStatus(returnedBook.title, "Available");
+            const row = document.querySelector(`tr[data-record-id="${recordId}"]`);
+            if(row) row.remove();
+            
+            const tbody = document.getElementById('tableBody');
 
-    displayBooks();
+            if(tbody.children.length === 0) {
+                tbody.innerHTML = `<tr>
+                        <td colspan="6" style="text-align: center; padding: 20px;">
+                            <i>No books borrowed yet. Use the Search page to find a book!</i>
+                        </td>
+                    </tr>`;
+            }
+
+            alert("Book returned successfully!");
+        } 
+        
+        else {
+            alert(data.error || "Failed to return book");
+        }
+    })
+
+    .catch(error => {
+        console.error('Error:', error);
+        alert("An error occurred while returning the book");
+    });
 }

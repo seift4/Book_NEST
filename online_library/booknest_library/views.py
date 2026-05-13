@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.http import JsonResponse
 from .models import User, Book, BorrowRecord
 from .forms import SignUpForm, LoginForm, BookForm, EditBookForm
+from django.utils import timezone
+from django.views.decorators.http import require_POST
 
 
 def index(request):
@@ -59,12 +61,14 @@ def search_books(request):
 
 @login_required
 def book_details(request, book_id):
-    return render(request, 'book_details.html')
+    book = get_object_or_404(Book, id=book_id)
+    return render(request, 'book_details.html', {'book': book})
 
 
 @login_required
 def borrowed_books(request):
-    return render(request, 'borrowed_books.html')
+    records = BorrowRecord.objects.filter(user=request.user, returned=False).select_related('book')
+    return render(request, 'borrowed_books.html', {'records': records})
 
 
 @login_required
@@ -132,8 +136,63 @@ def api_book_detail(request, book_id):
     }
     return JsonResponse(data)
 
-def view_books_admin(request):
-    books = Book.objects.all()
-    return render(request, 'view_book_admin.html', {'books': books})
+@login_required
+@require_POST
+def api_borrow_book(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    
+    if not book.is_available: return JsonResponse({'success': False, 'error': 'Book unavailable'})
+    
+    if BorrowRecord.objects.filter(user=request.user, book=book, returned=False).exists():
+        return JsonResponse({'success': False, 'error': 'Already borrowed'})
+    
+    due_date = timezone.now() + timezone.timedelta(days=30)
+    record = BorrowRecord.objects.create(
+        user=request.user,
+        book=book,
+        due_date=due_date
+    )
+    
+    book.is_available = False
+    book.save()
+    
+    return JsonResponse({
+        'success': True,
+        'due_date': due_date.strftime('%B %d, %Y')
+    })
 
 
+@login_required
+@require_POST
+def api_return_book(request, record_id):
+    record = get_object_or_404(BorrowRecord, id=record_id, user=request.user)
+    
+    if record.returned: return JsonResponse({'success': False, 'error': 'Already returned'})
+    
+    record.returned = True
+    record.date_returned = timezone.now()
+    record.save()
+    
+    record.book.is_available = True
+    record.book.save()
+    
+    return JsonResponse({'success': True})
+
+@login_required
+def api_my_borrowed_books(request):
+    records = BorrowRecord.objects.filter(user=request.user, returned=False).select_related('book')
+    
+    data = {
+        'records': [
+            {
+                'id': r.id,
+                'book_title': r.book.title,
+                'book_author': r.book.author,
+                'book_category': r.book.category,
+                'date_borrowed': r.date_borrowed.strftime('%b %d, %Y'),
+                'due_date': r.due_date.strftime('%b %d, %Y'),
+            }
+            for r in records
+        ]
+    }
+    return JsonResponse(data)

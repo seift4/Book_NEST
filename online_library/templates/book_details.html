@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Book Details</title>
-        <link href="https://googleapis.com" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'bookstyle.css' %}">
     </head>
 
@@ -27,41 +27,19 @@
 
         <br>
         
-        <table>
-            <tr>
-                <th>Book Title:</th>
-                <td id="bookTitle"></td>
-            </tr>
-
+        <table class="details-table">
+            <tr><th>Book Title:</th><td id="bookTitle">Loading...</td></tr>
             <tr>
                 <th>Book Cover:</th>
-                <td> 
-                    <img id="bookCover" alt="Book cover" height="250">
-                </td>
+                <td><img id="bookCover" class="book-cover-img" alt="Book cover" height="250" src="{% static 'images/no_cover_available.png' %}"></td>
             </tr>
-
-            <tr>
-                <th>Author:</th>
-                <td id="bookAuthor"></td>
-            </tr>
-
-            <tr>
-                <th>Category:</th>
-                <td id="bookCategory"></td>
-            </tr>
-
-            <tr>
-                <th>Status:</th>
-                <td id="bookStatus"><b></b></td>
-            </tr>
-
-            <tr>
-                <th>Description:</th>
-                <td>
-                    <p id="bookDescription"></p>
-                </td>
-            </tr>
+            <tr><th>Author:</th><td id="bookAuthor">Loading...</td></tr>
+            <tr><th>Category:</th><td id="bookCategory">Loading...</td></tr>
+            <tr><th>Status:</th><td id="bookStatus">Loading...</td></tr>
+            <tr><th>Description:</th><td><p id="bookDescription">Loading...</p></td></tr>
         </table>
+
+        <button type="button" id="borrowBtn" class="borrow-btn">Loading...</button>
 
         <br>
 
@@ -72,6 +50,7 @@
         <br><br> 
 
 
+        <script src="{% static 'csrf_utils.js' %}"></script>
         <script src="{% static 'search.js' %}"></script>
         <script src="{% static 'book_details.js' %}"></script>
         <script src="{% static 'authScript.js' %}"></script>
