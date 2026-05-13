@@ -55,49 +55,71 @@ function getAllBooks() {
 
     return defaultBooksFromStorage.concat(formattedAdminBooks);
 }
+// ====== Phase 3: البحث باستخدام Django API ======
 
+let booksDatabase = [];
+let searchHistory = [];
 
-var booksDatabase = [];
-var searchHistory = [];
-
+// تحميل الصفحة
 window.onload = function() {
-    booksDatabase = getAllBooks();
+    fetchBooksFromAPI();
     loadHistory();
-    displayAllBooks();
     
-    var form = document.getElementById("searchForm");
+    let form = document.getElementById("searchForm");
     if (form) {
         form.onsubmit = handleSearch;
     }
 };
 
+// ====== جلب الكتب من Django API ======
+function fetchBooksFromAPI() {
+    fetch('/api/books/')
+        .then(response => response.json())
+        .then(data => {
+            booksDatabase = data.map(book => ({
+                id: book.id,
+                title: book.title || "No Title",
+                author: book.author || "Unknown",
+                category: book.category || "General",
+                status: book.is_available === true ? "Available" : "Borrowed",
+                coverImage: book.image || "/static/images/no_cover_available.png",
+                description: book.description || "No description available."
+            }));
+            displayAllBooks();
+        })
+        .catch(error => {
+            console.error("Error fetching books:", error);
+            showMessage("Failed to load books from server!", "error");
+        });
+}
+
+// ====== عرض جميع الكتب ======
 function displayAllBooks() {
     displayResults(booksDatabase, "", "All");
 }
 
+// ====== معالجة البحث ======
 function handleSearch(event) {
     event.preventDefault(); 
-    var searchTerm = document.getElementById("searchInput").value;
+    let searchTerm = document.getElementById("searchInput").value;
     
     if (searchTerm === "" || searchTerm.trim() === "") {
         showMessage("Please enter a search term!", "error");
         return false;
     }
     
-    var searchType = getSelectedSearchType();
+    let searchType = getSelectedSearchType();
     performSearch(searchTerm, searchType);
     return true;
 }
 
+// ====== تنفيذ البحث ======
 function performSearch(searchTerm, searchType) {
-    // تحديث الكتب قبل كل بحث
-    booksDatabase = getAllBooks();
+    let filteredBooks = [];
+    let lowerTerm = searchTerm.toLowerCase();
 
-    var filteredBooks = [];
-    var lowerTerm = searchTerm.toLowerCase();
-
-    for (var i = 0; i < booksDatabase.length; i++) {
-        var book = booksDatabase[i];
+    for (let i = 0; i < booksDatabase.length; i++) {
+        let book = booksDatabase[i];
         
         if (searchType === "All") {
             if (book.title.toLowerCase().indexOf(lowerTerm) !== -1 ||
@@ -122,9 +144,10 @@ function performSearch(searchTerm, searchType) {
     }
 }
 
+// ====== عرض النتائج ======
 function displayResults(books, searchTerm, searchType) {
-    var container = document.getElementById("resultsContainer");
-    var statsDiv = document.getElementById("searchStats");
+    let container = document.getElementById("resultsContainer");
+    let statsDiv = document.getElementById("searchStats");
     
     if (!container) return;
     
@@ -141,16 +164,16 @@ function displayResults(books, searchTerm, searchType) {
         return;
     }
     
-    var htmlContent = "";
-    for (var i = 0; i < books.length; i++) {
-        var book = books[i];
-        var statusClass = (book.status === "Available") ? "status-available" : "status-borrowed";
+    let htmlContent = "";
+    for (let i = 0; i < books.length; i++) {
+        let book = books[i];
+        let statusClass = (book.status === "Available") ? "status-available" : "status-borrowed";
         
         htmlContent += `
             <div class="book-card">
-                <h4>📖 ${book.title}</h4>
-                <p><b>Author:</b> ${book.author}</p>
-                <p><b>Category:</b> ${book.category}</p>
+                <h4>📖 ${escapeHtml(book.title)}</h4>
+                <p><b>Author:</b> ${escapeHtml(book.author)}</p>
+                <p><b>Category:</b> ${escapeHtml(book.category)}</p>
                 <p><b>Status:</b> <span class="${statusClass}">${book.status}</span></p>
                 <button onclick="viewBook(${i})">View Details</button>
             </div>
@@ -160,9 +183,21 @@ function displayResults(books, searchTerm, searchType) {
     container.innerHTML = htmlContent;
 }
 
+// ====== منع الـ XSS (أمان) ======
+function escapeHtml(str) {
+    if (!str) return "";
+    return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+    });
+}
+
+// ====== الحصول على نوع البحث ======
 function getSelectedSearchType() {
-    var radios = document.getElementsByName("search_by");
-    for (var i = 0; i < radios.length; i++) {
+    let radios = document.getElementsByName("search_by");
+    for (let i = 0; i < radios.length; i++) {
         if (radios[i].checked) {
             if (i === 0) return "All";
             if (i === 1) return "Title";
@@ -173,8 +208,9 @@ function getSelectedSearchType() {
     return "All";
 }
 
+// ====== عرض رسالة ======
 function showMessage(message, type) {
-    var alertDiv = document.getElementById("alertMessage");
+    let alertDiv = document.getElementById("alertMessage");
     if (!alertDiv) return;
     alertDiv.innerHTML = message;
     alertDiv.className = "alert " + type;
@@ -182,6 +218,7 @@ function showMessage(message, type) {
     setTimeout(function() { alertDiv.style.display = "none"; }, 3000);
 }
 
+// ====== إضافة إلى تاريخ البحث ======
 function addToHistory(term, type) {
     if (term === "") return;
     searchHistory.unshift({ word: term, searchBy: type, date: new Date().toLocaleString() });
@@ -190,38 +227,42 @@ function addToHistory(term, type) {
     displayHistory();
 }
 
+// ====== تحميل تاريخ البحث ======
 function loadHistory() {
-    var saved = localStorage.getItem("mySearchHistory");
+    let saved = localStorage.getItem("mySearchHistory");
     if (saved) { searchHistory = JSON.parse(saved); displayHistory(); }
 }
 
+// ====== عرض تاريخ البحث ======
 function displayHistory() {
-    var historyDiv = document.getElementById("historyList");
+    let historyDiv = document.getElementById("historyList");
     if (!historyDiv) return;
     if (searchHistory.length === 0) {
         historyDiv.innerHTML = "<span style='color:gray;'>No recent searches</span>";
         return;
     }
-    var html = "";
-    for (var i = 0; i < searchHistory.length; i++) {
-        var item = searchHistory[i];
+    let html = "";
+    for (let i = 0; i < searchHistory.length; i++) {
+        let item = searchHistory[i];
         html += '<div class="history-item" onclick="repeatSearch(\'' + item.word + '\', \'' + item.searchBy + '\')">';
         html += item.word + " (" + item.searchBy + ")</div>";
     }
     historyDiv.innerHTML = html;
 }
 
+// ====== تكرار البحث ======
 function repeatSearch(term, type) {
     document.getElementById("searchInput").value = term;
-    var radios = document.getElementsByName("search_by");
-    var typeMap = {"All":0, "Title":1, "Author":2, "Category":3};
-    var index = typeMap[type];
+    let radios = document.getElementsByName("search_by");
+    let typeMap = {"All":0, "Title":1, "Author":2, "Category":3};
+    let index = typeMap[type];
     if (index !== undefined && radios[index]) radios[index].checked = true;
     performSearch(term, type);
 }
 
+// ====== عرض تفاصيل الكتاب ======
 function viewBook(index) {
     const book = booksDatabase[index];
-    localStorage.setItem('selectedBook', JSON.stringify(book));
-    window.location.href = "/user/book/" + bookId + "/";
+    window.location.href = "/user/book/" + book.id + "/";
 }
+
