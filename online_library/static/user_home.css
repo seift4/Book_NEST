@@ -1,5 +1,4 @@
 
-/* Navbar */
 nav {
     background-color: #ffffff;
     color: #1D293F;
@@ -10,16 +9,12 @@ nav {
     border-bottom: 1px solid #ddd;
 }
 
-/* Logo */
 .logo {
     margin: 0;
     font-size: 20px;
 }
 
-/* Nav Links Container */
 nav ul {
-        position: absolute;
-    right: 30px;
     list-style: none;
     display: flex;
     gap: 20px;
@@ -27,89 +22,50 @@ nav ul {
     padding: 0;
 }
 
-/* Links */
 .nav-link {
-
     text-decoration: none;
     color: #1D293F;
     font-size: 14px;
     transition: 0.3s;
 }
 
-/* Remove default li style */
-nav li {
-        font-size: 15px;
-    list-style: none;
-}
-
 .nav-link:not(.out):hover {
-  /* ضع التنسيقات التي تريدها هنا */
-  color: blue; /* مثال لتغيير اللون */
+  color: #2980b9;
   text-decoration: underline; 
 }
 
-
-.out{
-    position: relative;
-    bottom: 3px;
+.out {
     background-color: #1D293F;
-    padding: 6px;
+    padding: 6px 12px;
     color: #ffffff;
     border-radius: 12px;
-
 }
-.out:hover{
+
+.out:hover {
     background-color: #ffffff;
-    padding: 6px;
     color: #1D293F;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
 
-
-
-
-
-
-
-
-        /* General */
 body {
     background-color: #ffffff;
     color: #1D293F;
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
 }
 
-/* Header */
 header {
     text-align: center;
     padding: 40px 20px;
-    background-color: #f8f9fb;
+    background-color: #fcfcfc;
 }
 
-header h1 {
-    font-size: 30px;
-    margin-bottom: 10px;
-}
-
-header p {
-    max-width: 700px;
-    margin: 10px auto;
-    line-height: 1.6;
-}
-
-/* Sections */
 section {
     max-width: 800px;
     margin: auto;
     padding: 30px 20px;
 }
 
-section h2 {
-    margin-bottom: 15px;
-}
-
-/* List */
 section ul {
     list-style: none;
     padding: 0;
@@ -117,13 +73,12 @@ section ul {
 
 section ul li {
     background-color: #f8f9fb;
-    padding: 15px;
+    padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
-    line-height: 1.6;
+    border-right: 4px solid #1D293F; /* تمييز مختلف عن الأدمن */
 }
 
-/* Buttons */
 button {
     background-color: #1D293F;
     color: #ffffff;
@@ -131,10 +86,9 @@ button {
     padding: 10px 20px;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 14px;
     transition: 0.3s;
 }
 
 button:hover {
-    background-color: #2e3f5c;
+    background-color: #34495e;
 }

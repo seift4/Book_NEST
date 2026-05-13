@@ -1,69 +1,36 @@
-// ===== Signup =====
-function checkPass() {
-  const password = document.getElementById("pass").value;
-  const confirmPassword = document.getElementById("confirmPass").value;
-
-  if (password !== confirmPassword) {
-    document.getElementById("error").style.display = "block";
-    return false;
-  }
-
-  const username = document.getElementById("username").value;
-  const email = document.getElementById("email").value;
-  const role = document.querySelector('input[name="is_admin"]:checked').value;
-
-  const user = {
-    username: username,
-    email: email,
-    password: password,
-    role: role
-  };
-
-  let users = JSON.parse(localStorage.getItem("users")) || [];
-  users.push(user);
-  localStorage.setItem("users", JSON.stringify(users));
-
-  alert("Signup successful!");
-  window.location.href = "/login/";
-
-  return false;
-}
-
-// ===== Remove error =====
-function removeError() {
-  document.getElementById("error").style.display = "none";
-}
-
-// ===== Login =====
-function loginUser() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
-
-  const users = JSON.parse(localStorage.getItem("users")) || [];
-
-  const user = users.find(u =>
-    (u.username === username || u.email === username) &&
-    u.password === password
-  );
-
-  if (user) {
-    localStorage.setItem("currentUser", JSON.stringify(user));
-
-    if (user.role === "Admin") {
-      	window.location.href = "/admin/home/";
-    } else {
-      	window.location.href = "/user/home/";
+// دالة لجلب الـ Token الأمني لـ Django
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
     }
-  } else {
-    alert("Wrong username or password");
-  }
-
-  return false;
+    return cookieValue;
 }
 
-// ===== Logout =====
+
 function logout() {
-  console.log("Logout clicked");
-  localStorage.removeItem("currentUser");
-  	window.location.href = "/login/";
+    console.log("Logging out...");
+    
+    localStorage.removeItem("currentUser");
+  
+    window.location.href = "/logout/"; 
 }
+
+function checkPass() {
+    const password = document.getElementById("pass").value;
+    const confirmPassword = document.getElementById("confirmPass").value;
+    const errorMsg = document.getElementById("error");
+
+    if (password !== confirmPassword) {
+        errorMsg.style.display = "block";
+        errorMsg.innerText = "Passwords do not match!";
+        return false;
+    }
+    return true;}
