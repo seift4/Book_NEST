@@ -1,4 +1,4 @@
-// دالة لجلب الـ Token الأمني لـ Django
+
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {

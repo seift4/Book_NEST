@@ -18,8 +18,8 @@
 
     <a  class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a> 
     <a   class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a> 
-    <a   class="nav-link" href="{% url 'veiw_book_admin' %}"><li>View Books</li></a>
-    <a   class="nav-link" href="{% url 'edit_book' %}"><li>Edit Books</li></a>
+    <a class="nav-link" href="{% url 'view_books_admin' %}"><li>View Books</li></a>
+    <a class="nav-link" href="{% url 'view_books_admin' %}"><li>Edit Books</li></a>
     <a class="nav-link out" href="#" onclick="logout()">Logout</a>
     
 </ul>
@@ -60,21 +60,13 @@
             <strong>View All Books</strong><br>
             Browse all available books currently listed in the library.
             <br><br>
-            <a href="{% url 'veiw_book_admin' %}">
+            <a href="{% url 'view_books_admin' %}">
                 <button>View Books</button>
             </a>
         </li>
 
         <br>
 
-        <li>
-            <strong>Manage Books</strong><br>
-            Edit existing book information or remove books from the system.
-            <br><br>
-            <a href="{% url 'edit_book' %}">
-                <button>Manage Library</button>
-            </a>
-        </li>
     </ul>
 </section>
 
@@ -92,14 +84,6 @@
 </section>
 
 <hr>
-<script src="{% static 'authScript.js' %}"></script>
-<script>
-const user = JSON.parse(localStorage.getItem("currentUser"));
-
-if (!user || user.role !== "Admin") {
-  window.location.href = "{% url 'login' %}";
-}
-</script>
 </body>
 
 </html>

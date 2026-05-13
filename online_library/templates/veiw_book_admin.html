@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="{% static style_veiwbook.css %}">
-        <title>Veiw Books</title>
+        <link rel="stylesheet" href="{% static style_viewbook.css %}">
+        <title>View Books</title>
     </head>
     <body>
     
@@ -14,8 +14,7 @@
 
     <a  class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a> 
     <a   class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a> 
-    <a   class="nav-link" href="{% url 'veiw_book_admin' %}"><li>View Books</li></a>
-    <a   class="nav-link" href="{% url 'edit_book' %}"><li>Edit Books</li></a>
+    <a   class="nav-link" href="{% url 'view_books_admin' %}"><li>View Books</li></a>
     <a class="nav-link out" href="#" onclick="logout()">Logout</a>
     
 </ul>

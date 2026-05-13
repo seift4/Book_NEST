@@ -51,11 +51,16 @@ function returnBook(recordId) {
     fetch(`/api/return-book/${recordId}/`, {
         method: 'POST',
         headers: {
-            'X-CSRFToken': getCookie('csrftoken'),
-            'Content-Type': 'application/json'
+            'X-CSRFToken': getCookie('csrftoken')
+            // REMOVED: 'Content-Type': 'application/json'
         }
         
-    }).then(response => response.json()).then(data => {
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        return response.json();
+    }).then(data => {
         if(data.success) {
 
             const row = document.querySelector(`tr[data-record-id="${recordId}"]`);
@@ -81,6 +86,6 @@ function returnBook(recordId) {
 
     .catch(error => {
         console.error('Error:', error);
-        alert("An error occurred while returning the book");
+        alert("An error occurred while returning the book: " + error.message);
     });
 }

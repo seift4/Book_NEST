@@ -25,5 +25,7 @@ urlpatterns = [
     # API routes
     path('api/books/', views.api_books_list, name='api_books_list'),
     path('api/book/<int:book_id>/', views.api_book_detail, name='api_book_detail'),
+    path('api/borrow-book/<int:book_id>/', views.api_borrow_book, name='api_borrow_book'),  # ADD THIS
+    path('api/return-book/<int:record_id>/', views.api_return_book, name='api_return_book'),  # ADD THIS
     path('api/my-borrowed-books/', views.api_my_borrowed_books, name='api_my_borrowed_books'),
 ]

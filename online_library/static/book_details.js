@@ -40,10 +40,15 @@ function setupBorrowButton(bookId, isAvailable) {
         fetch(`/api/borrow-book/${bookId}/`, {
             method: 'POST',
             headers: {
-                'X-CSRFToken': getCookie('csrftoken'),
-                'Content-Type': 'application/json'
+                'X-CSRFToken': getCookie('csrftoken')
+                // REMOVED: 'Content-Type': 'application/json'
             }
-        }).then(response => response.json()).then(data => {
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            return response.json();
+        }).then(data => {
             if(data.success) {
                 document.getElementById('bookStatus').innerHTML = '<span class="status-borrowed">Borrowed</span>';
                 borrowBtn.innerText = "Already Borrowed";
@@ -62,7 +67,7 @@ function setupBorrowButton(bookId, isAvailable) {
             console.error('Error:', error);
             borrowBtn.disabled = false;
             borrowBtn.innerText = "Borrow This Book";
-            alert("An error occurred");
+            alert("An error occurred: " + error.message);
         });
     };
 }
