@@ -19,7 +19,15 @@
     <a  class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a> 
     <a   class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a> 
     <a class="nav-link" href="{% url 'view_books_admin' %}"><li>View Books</li></a>
+<<<<<<< HEAD
+    <a class="nav-link" href="{% url 'view_books_admin' %}"><li>Edit Books</li></a>
+    <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+=======
     <a class="nav-link out" href="#" onclick="logout()">Logout</a>
+>>>>>>> df3b4b062a71582b5094d2d65cd48805de4ae15b
     
 </ul>
 </nav>
