@@ -25,10 +25,9 @@ def signup(request):
                 user.save()
 
             login(request, user)
-
+       
             if user.role == 'Admin':
                 return redirect('admin_home')
-
             return redirect('user_home')
         else:
             print(form.errors)
@@ -36,8 +35,6 @@ def signup(request):
         form = SignUpForm()
 
     return render(request, 'signup.html', {'form': form})
-
-
 
 def login_view(request):
     if request.method == 'POST':
