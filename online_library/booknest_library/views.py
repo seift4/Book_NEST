@@ -18,13 +18,25 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
+
+            if user.role == 'Admin':
+                user.is_staff = True
+                user.is_superuser = True
+                user.save()
+
             login(request, user)
+
+            if user.role == 'Admin':
+                return redirect('admin_home')
+
             return redirect('user_home')
         else:
             print(form.errors)
     else:
         form = SignUpForm()
+
     return render(request, 'signup.html', {'form': form})
+
 
 
 def login_view(request):

@@ -20,6 +20,8 @@ nav ul {
     gap: 20px;
     margin: 0;
     padding: 0;
+    position: absolute;
+    right: 50px;
 }
 
 .nav-link {
