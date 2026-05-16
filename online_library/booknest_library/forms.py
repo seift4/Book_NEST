@@ -20,6 +20,14 @@ class SignUpForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         self.fields['password1'].help_text = None
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.role = self.cleaned_data['role']
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+        return user
+
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={
