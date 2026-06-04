@@ -3,34 +3,311 @@
 <html>
     <head>
         <title> Add book (Admin) </title>
-        <link rel="stylesheet" href="{% static 'style_addBook.css' %}">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap');
+
+:root {
+    --bg-gradient: linear-gradient(135deg, #070a12 0%, #020408 100%);
+    --glass-bg: rgba(255, 255, 255, 0.015);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    
+    --primary-glow: #059669;    /* الزمردي للأدمن */
+    --secondary-glow: #fbbf24;  /* الذهبي */
+    
+    --text-main: #f3f4f6;
+    --text-muted: #6b7280;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+body {
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ==========================================================================
+   الـ Navbar الفاخر والموحد
+   ========================================================================== */
+.glass-nav {
+    position: fixed;
+    top: 25px; left: 50%;
+    transform: translateX(-50%);
+    width: 92%; max-width: 1200px;
+    background: rgba(3, 7, 18, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 18px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+
+.logo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #fff;
+}
+.brand-accent {
+    color: var(--secondary-glow);
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 15px;
+}
+
+.nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+.nav-link:hover, .nav-link.active {
+    color: var(--primary-glow);
+    background: rgba(5, 150, 105, 0.05);
+    border-color: rgba(5, 150, 105, 0.2);
+}
+
+.logout-btn {
+    background: transparent;
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s;
+}
+.logout-btn:hover {
+    background: #ef4444;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+    transform: translateY(-2px);
+}
+
+/* الأضواء الخلفية الخافتة */
+.animated-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+}
+.animated-bg::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: var(--primary-glow);
+    bottom: -10%; left: -10%;
+    filter: blur(200px);
+    opacity: 0.08;
+}
+
+/* ==========================================================================
+   حاوية كارت الإدخال العريضة (Form Card)
+   ========================================================================== */
+.form-container {
+    width: 100%;
+    max-width: 650px; /* مساحة أكبر ومريحة لبيانات الكتب */
+    padding: 20px;
+    margin-top: 110px; 
+    margin-bottom: 50px;
+    z-index: 10;
+}
+
+.form-card {
+    background: rgba(10, 15, 26, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 45px;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.form-icon {
+    font-size: 2.2rem;
+    color: var(--primary-glow);
+    margin-bottom: 15px;
+    text-shadow: 0 0 20px rgba(5, 150, 105, 0.3);
+}
+
+.form-header h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-header p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* تهيئة حقول ديانجو الذكية ({{ form.as_p }}) */
+.django-fields-wrapper p {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 22px;
+}
+
+.django-fields-wrapper p label {
+    font-size: 0.85rem;
+    color: var(--text-main);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+/* ستايل حقول الإدخال، حقول الرفع، وصندوق الوصف الكبير */
+.django-fields-wrapper p input,
+.django-fields-wrapper p select,
+.django-fields-wrapper p textarea {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    color: #fff;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+/* تنسيق مخصص لحقل الوصف (Textarea) لو كان كبيراً */
+.django-fields-wrapper p textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* تنسيق خاص لحقول رفع الملفات والصور */
+.django-fields-wrapper p input[type="file"] {
+    padding: 10px;
+    font-size: 0.8rem;
+    background: rgba(5, 150, 105, 0.02);
+    border-style: dashed; /* يعطي مظهر منطقة رفع احترافية */
+    border-color: rgba(5, 150, 105, 0.3);
+    cursor: pointer;
+}
+
+/* تأثير الإضاءة الزمردية عند التعديل والكتابة */
+.django-fields-wrapper p input:focus,
+.django-fields-wrapper p select:focus,
+.django-fields-wrapper p textarea:focus {
+    border-color: var(--primary-glow);
+    background: rgba(5, 150, 105, 0.03);
+    box-shadow: 0 0 15px rgba(5, 150, 105, 0.2);
+}
+
+/* زر إرسال وتنفيذ العملية للـ Database */
+.form-actions {
+    margin-top: 35px;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid var(--primary-glow);
+    background: var(--primary-glow);
+    color: #000;
+}
+
+.btn-submit:hover {
+    box-shadow: 0 0 30px rgba(5, 150, 105, 0.5);
+    transform: translateY(-2px);
+}
+
+/* دعم قوائم الأخطاء لو وجدت */
+.django-fields-wrapper p .errorlist {
+    list-style: none;
+    color: #ef4444;
+    font-size: 0.75rem;
+    margin-top: 6px;
+}
+
+
+        </style>
     </head>
 
-    <body>
-        <nav>
-    <h2 class="logo">📚 BookNest Library</h2>
-   
-   <ul>
+<body>
 
-    <a  class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a> 
-    <a   class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a> 
-    <a class="nav-link" href="{% url 'view_books_admin' %}"><li>View Books</li></a>
-    <form method="POST" action="{% url 'logout' %}" style="display: inline;">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
-    
-</ul>
-</nav>
-        <h1> Add book </h1>
+    <div class="animated-bg"></div>
 
-        <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Add</button>
-         </form>
+    <nav class="glass-nav">
+        <h2 class="logo"><i class="fas fa-terminal"></i> BookNest <span class="brand-accent">Core</span></h2>
+        <ul class="nav-menu">
+            <li><a class="nav-link" href="{% url 'admin_home' %}"><i class="fas fa-cubes"></i> Home</a></li>
+            <li><a class="nav-link active" href="{% url 'admin_add_book' %}"><i class="fas fa-plus"></i> Add Book</a></li>
+            <li><a class="nav-link" href="{% url 'view_books_admin' %}"><i class="fas fa-book-open"></i> View Books</a></li>
+            <li>
+                <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn"><i class="fas fa-power-off"></i> Log Out</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
 
-    </body>
+    <main class="form-container">
+        <div class="form-card">
+            <div class="form-header">
+                <i class="fas fa-cloud-upload-alt form-icon"></i>
+                <h2>Database Entry</h2>
+                <p>Insert a new book asset into the library infrastructure.</p>
+            </div>
 
+            <form method="POST" enctype="multipart/form-data" class="cyber-form">
+                {% csrf_token %}
+                
+                <div class="django-fields-wrapper">
+                    {{ form.as_p }}
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit">Execute Insertion</button>
+                </div>
+            </form>
+        </div>
+    </main>
 
+</body>
 </html>

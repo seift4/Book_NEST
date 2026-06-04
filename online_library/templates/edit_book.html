@@ -1,35 +1,335 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Edit Book</title>
-    <link rel="stylesheet" href="{% static 'style_editbook.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookNest - Edit Book</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap');
+
+:root {
+    --bg-gradient: linear-gradient(135deg, #070a12 0%, #020408 100%);
+    --glass-bg: rgba(255, 255, 255, 0.015);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    
+    --primary-glow: #059669;    /* الزمردي */
+    --secondary-glow: #fbbf24;  /* الذهبي السيبراني */
+    
+    --text-main: #f3f4f6;
+    --text-muted: #6b7280;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+body {
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ==========================================================================
+   الـ Navbar الفاخر والموحد
+   ========================================================================== */
+.glass-nav {
+    position: fixed;
+    top: 25px; left: 50%;
+    transform: translateX(-50%);
+    width: 92%; max-width: 1200px;
+    background: rgba(3, 7, 18, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 18px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+
+.logo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #fff;
+}
+.brand-accent {
+    color: var(--secondary-glow);
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 15px;
+}
+
+.nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+.nav-link:hover, .nav-link.active {
+    color: var(--primary-glow);
+    background: rgba(5, 150, 105, 0.05);
+    border-color: rgba(5, 150, 105, 0.2);
+}
+
+.logout-btn {
+    background: transparent;
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s;
+}
+.logout-btn:hover {
+    background: #ef4444;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+    transform: translateY(-2px);
+}
+
+/* وهج الخلفية السحري */
+.animated-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+}
+.animated-bg::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: var(--primary-glow);
+    top: 60%; left: 10%;
+    filter: blur(180px);
+    opacity: 0.06;
+}
+
+/* ==========================================================================
+   حاوية كارت التعديل الزجاجية (Form Card)
+   ========================================================================== */
+.form-container {
+    width: 100%;
+    max-width: 650px;
+    padding: 20px;
+    margin-top: 110px;
+    margin-bottom: 50px;
+    z-index: 10;
+}
+
+.form-card {
+    background: rgba(10, 15, 26, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 45px;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7);
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.form-icon {
+    font-size: 2.2rem;
+    color: var(--secondary-glow);
+    margin-bottom: 15px;
+    text-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+}
+
+.form-header h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.form-header p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* تهيئة وتناسق فورم Django تلقائياً */
+.django-fields-wrapper p {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 22px;
+}
+
+.django-fields-wrapper p label {
+    font-size: 0.85rem;
+    color: var(--text-main);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.django-fields-wrapper p input,
+.django-fields-wrapper p select,
+.django-fields-wrapper p textarea {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    color: #fff;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.django-fields-wrapper p textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* تنسيق حقل رفع غلاف الكتاب المعدل */
+.django-fields-wrapper p input[type="file"] {
+    padding: 10px;
+    font-size: 0.8rem;
+    background: rgba(5, 150, 105, 0.02);
+    border-style: dashed;
+    border-color: rgba(5, 150, 105, 0.3);
+    cursor: pointer;
+}
+
+.django-fields-wrapper p input:focus,
+.django-fields-wrapper p select:focus,
+.django-fields-wrapper p textarea:focus {
+    border-color: var(--primary-glow);
+    background: rgba(5, 150, 105, 0.03);
+    box-shadow: 0 0 15px rgba(5, 150, 105, 0.2);
+}
+
+/* ستايل أزرار التحكم السفلية المزدوجة */
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 35px;
+}
+
+.btn-submit {
+    flex: 1;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid var(--primary-glow);
+    background: var(--primary-glow);
+    color: #000;
+}
+.btn-submit:hover {
+    box-shadow: 0 0 25px rgba(5, 150, 105, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-back {
+    flex: 1;
+    text-decoration: none;
+    text-align: center;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--glass-border);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.btn-back:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: #fff;
+    border-color: rgba(255,255,255,0.2);
+}
+
+.django-fields-wrapper p .errorlist {
+    list-style: none;
+    color: #ef4444;
+    font-size: 0.75rem;
+    margin-top: 6px;
+}
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <nav>
-        <h2 class="logo">📚 BookNest Library</h2>
-        <ul>
-            <a class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a>
-            <a class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a>
-            <a class="nav-link" href="{% url 'view_books_admin' %}"><li>View Books</li></a>
-            <form method="POST" action="{% url 'logout' %}" style="display: inline;">
-                {% csrf_token %}
-                <button type="submit">Logout</button>
-            </form>
+
+    <div class="animated-bg"></div>
+
+    <nav class="glass-nav">
+        <h2 class="logo"><i class="fas fa-terminal"></i> BookNest <span class="brand-accent">Core</span></h2>
+        <ul class="nav-menu">
+            <li><a class="nav-link" href="{% url 'admin_home' %}"><i class="fas fa-cubes"></i> Home</a></li>
+            <li><a class="nav-link" href="{% url 'admin_add_book' %}"><i class="fas fa-plus"></i> Add Book</a></li>
+            <li><a class="nav-link" href="{% url 'view_books_admin' %}"><i class="fas fa-book-open"></i> View Books</a></li>
+            <li>
+                <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn"><i class="fas fa-power-off"></i> Log Out</button>
+                </form>
+            </li>
         </ul>
     </nav>
 
-    <h2>Edit Book</h2>
+    <main class="form-container">
+        <div class="form-card">
+            <div class="form-header">
+                <i class="fas fa-edit form-icon"></i>
+                <h2>Modify Asset</h2>
+                <p>Alter existing book parameters inside the core repository.</p>
+            </div>
 
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save Changes</button>
-    </form>
+            <form method="POST" enctype="multipart/form-data" class="cyber-form">
+                {% csrf_token %}
+                
+                <div class="django-fields-wrapper">
+                    {{ form.as_p }}
+                </div>
+                
+                <div class="form-actions">
+                    <a href="{% url 'view_books_admin' %}" class="btn-back">
+                        <i class="fas fa-arrow-left"></i> Back to Repository
+                    </a>
+                    <button type="submit" class="btn-submit">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </main>
 
-    <br>
-    <a href="{% url 'view_books_admin' %}">
-        <button class="btn">Back to Books</button>
-    </a>
 </body>
 </html>

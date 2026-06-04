@@ -1,55 +1,80 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Book Details</title>
-        <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="{% static 'bookstyle.css' %}">
-    </head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookNest - Book Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'bookstyle.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
 
-    <body>
-<nav>
-    <h2 class="logo">📚 BookNest Library</h2>
-    
-    <ul>
- 
-    <a class="nav-link" href="{% url 'user_home' %}"><li>Home</li></a> 
-    <a class="nav-link" href="{% url 'search' %}"><li>Search Books</li></a> 
-    <a class="nav-link" href="{% url 'borrowed_books' %}"><li>Borrowed Books</li></a> 
-    <form method="POST" action="{% url 'logout' %}" style="display: inline;">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
-  </ul>
-    <hr>
-</nav>
+<body>
 
-        <h1> <ins> Book Information </ins> </h1>
+    <div class="animated-bg"></div>
 
-        <br>
-        
-        <table class="details-table">
-            <tr><th>Book Title:</th><td id="bookTitle">Loading...</td></tr>
-            <tr>
-                <th>Book Cover:</th>
-                <td><img id="bookCover" class="book-cover-img" alt="Book cover" height="250" src="{% static 'images/no_cover_available.png' %}"></td>
-            </tr>
-            <tr><th>Author:</th><td id="bookAuthor">Loading...</td></tr>
-            <tr><th>Category:</th><td id="bookCategory">Loading...</td></tr>
-            <tr><th>Status:</th><td id="bookStatus">Loading...</td></tr>
-            <tr><th>Description:</th><td><p id="bookDescription">Loading...</p></td></tr>
-        </table>
+    <nav class="glass-nav">
+        <h2 class="logo"><i class="fas fa-terminal"></i> BookNest <span class="brand-accent">Core</span></h2>
+        <ul class="nav-menu">
+            <li><a class="nav-link" href="{% url 'user_home' %}"><i class="fas fa-cubes"></i> Home</a></li>
+            <li><a class="nav-link" href="{% url 'search' %}"><i class="fas fa-search"></i> Search Books</a></li>
+            <li><a class="nav-link" href="{% url 'borrowed_books' %}"><i class="fas fa-book-bookmark"></i> Borrowed</a></li>
+            <li>
+                <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn"><i class="fas fa-power-off"></i> Terminate</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
 
-        <button type="button" id="borrowBtn" class="borrow-btn">Borrow This Book</button>
+    <main class="details-container">
+        <div class="tilt-card asset-card" data-tilt>
+            <div class="card-inner asset-layout">
+                
+                <div class="asset-cover-wrapper">
+                    <img id="bookCover" class="book-cover-img" alt="Book cover" src="{% static 'images/no_cover_available.png' %}">
+                </div>
 
-        <br><br> 
-        <hr>
-        <br><br> 
+                <div class="asset-info-wrapper">
+                    <div class="asset-header">
+                        <span class="meta-label"><i class="fas fa-database"></i> Asset Metadata</span>
+                        <h1 id="bookTitle">Loading...</h1>
+                    </div>
 
-        <script src="{% static 'csrf_utils.js' %}"></script>
-        <script src="{% static 'book_details.js' %}"></script>
-        <script src="{% static 'authScript.js' %}"></script>
-    </body>
+                    <table class="details-table">
+                        <tr>
+                            <th><i class="fas fa-user-feather"></i> Author</th>
+                            <td id="bookAuthor">Loading...</td>
+                        </tr>
+                        <tr>
+                            <th><i class="fas fa-layer-group"></i> Category</th>
+                            <td id="bookCategory">Loading...</td>
+                        </tr>
+                        <tr>
+                            <th><i class="fas fa-info-circle"></i> Status</th>
+                            <td><span id="bookStatus" class="status-indicator">Loading...</span></td>
+                        </tr>
+                        <tr>
+                            <th><i class="fas fa-align-left"></i> Description</th>
+                            <td><p id="bookDescription">Loading...</p></td>
+                        </tr>
+                    </table>
+
+                    <div class="asset-actions">
+                        <button type="button" id="borrowBtn" class="btn-submit borrow-btn">
+                            <i class="fas fa-key"></i> Borrow This Book
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="{% static 'csrf_utils.js' %}"></script>
+    <script src="{% static 'book_details.js' %}"></script>
+    <script src="{% static 'authScript.js' %}"></script>
+</body>
 </html>

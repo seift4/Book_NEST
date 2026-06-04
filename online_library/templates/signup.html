@@ -1,27 +1,292 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Sign-up</title>
-    <link rel="stylesheet" href="{% static 'style1.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookNest - Sign-up</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap');
+
+:root {
+    --bg-gradient: linear-gradient(135deg, #070a12 0%, #020408 100%);
+    --glass-bg: rgba(255, 255, 255, 0.015);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    
+    --primary-glow: #059669;    /* الزمردي */
+    --secondary-glow: #fbbf24;  /* الذهبي */
+    --error-red: #ef4444;
+    
+    --text-main: #f3f4f6;
+    --text-muted: #6b7280;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+body {
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* ==========================================================================
+   الـ Navbar الفاخر والموحد
+   ========================================================================== */
+.glass-nav {
+    position: fixed;
+    top: 25px; left: 50%;
+    transform: translateX(-50%);
+    width: 92%; max-width: 1200px;
+    background: rgba(3, 7, 18, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 18px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+
+.logo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #fff;
+}
+.brand-accent {
+    color: var(--secondary-glow);
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 15px;
+}
+
+.nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+.nav-link:hover, .nav-link.active {
+    color: var(--primary-glow);
+    background: rgba(5, 150, 105, 0.05);
+    border-color: rgba(5, 150, 105, 0.2);
+}
+
+/* الأضواء الخلفية الخافتة */
+.animated-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+}
+.animated-bg::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: var(--secondary-glow);
+    top: 10%; right: 10%;
+    filter: blur(200px);
+    opacity: 0.06;
+}
+
+/* ==========================================================================
+   حاوية كارت التسجيل الزجاجي (متوافق مع حقول Django الافتراضية)
+   ========================================================================== */
+.auth-container {
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+    margin-top: 100px; /* مسافة أمان من الناف بار الطاير */
+    margin-bottom: 40px;
+    z-index: 10;
+}
+
+.auth-card {
+    background: rgba(10, 15, 26, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.auth-icon {
+    font-size: 2rem;
+    color: var(--primary-glow);
+    margin-bottom: 15px;
+    text-shadow: 0 0 15px rgba(5, 150, 105, 0.3);
+}
+
+.auth-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.auth-header p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+/* التمكين السحري لحقول Django ({{ form.as_p }}) */
+.django-fields-wrapper p {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.django-fields-wrapper p label {
+    font-size: 0.8rem;
+    color: var(--text-main);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+/* ستايل جميع المدخلات التي يولدها فورم البايثون */
+.django-fields-wrapper p input,
+.django-fields-wrapper p select,
+.django-fields-wrapper p textarea {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #fff;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+/* إضاءة النيون الخضراء عند الكتابة */
+.django-fields-wrapper p input:focus {
+    border-color: var(--primary-glow);
+    background: rgba(5, 150, 105, 0.02);
+    box-shadow: 0 0 15px rgba(5, 150, 105, 0.15);
+}
+
+/* تنسيق نصوص المساعدة الفرعية لدعم كلمات المرور المعقدة لو ظهرت */
+.django-fields-wrapper p .helptext {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin-top: 5px;
+    line-height: 1.4;
+}
+
+/* تنسيق أخطاء ديانجو الداخلية */
+.django-fields-wrapper p .errorlist {
+    list-style: none;
+    color: var(--error-red);
+    font-size: 0.75rem;
+    margin-top: 5px;
+}
+
+/* أزرار التحكم السفلية */
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-action {
+    flex: 1;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.btn-reset {
+    background: transparent;
+    color: var(--text-muted);
+    border-color: var(--glass-border);
+}
+.btn-reset:hover {
+    background: rgba(255,255,255,0.03);
+    color: #fff;
+}
+
+.btn-submit {
+    background: var(--primary-glow);
+    color: #000;
+}
+.btn-submit:hover {
+    box-shadow: 0 0 25px rgba(5, 150, 105, 0.4);
+    transform: translateY(-2px);
+}
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
-<nav>
-    <h2 class="logo">📚 BookNest Library</h2>
-    <ul>
-        <a class="nav-link" href="{% url 'index' %}"><li>Home</li></a> 
-        <a class="nav-link" href="{% url 'login' %}"><li>Login</li></a> 
-        <a class="nav-link" href="{% url 'signup' %}"><li>Sign Up</li></a>
-    </ul>
-</nav>
 
-    <form method="POST" action="{% url 'signup' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="reset">Reset</button>
-    <button type="submit">Signup</button>
-</form>
-    
+    <div class="animated-bg"></div>
+
+    <nav class="glass-nav">
+        <h2 class="logo"><i class="fas fa-terminal"></i> BookNest <span class="brand-accent">Core</span></h2>
+        <ul class="nav-menu">
+            <li><a class="nav-link" href="{% url 'index' %}"><i class="fas fa-cubes"></i> Home</a></li>
+            <li><a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            <li><a class="nav-link active" href="{% url 'signup' %}"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+        </ul>
+    </nav>
+
+    <main class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <i class="fas fa-user-shield auth-icon"></i>
+                <h2>Create Account</h2>
+                <p>Register new credentials into the secure library core.</p>
+            </div>
+
+            <form method="POST" action="{% url 'signup' %}" class="auth-form django-form">
+                {% csrf_token %}
+                
+                <div class="django-fields-wrapper">
+                    {{ form.as_p }}
+                </div>
+                
+                <div class="form-actions">
+                    <button type="reset" class="btn-action btn-reset">Reset</button>
+                    <button type="submit" class="btn-action btn-submit">Sign Up</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
 </body>
 </html>

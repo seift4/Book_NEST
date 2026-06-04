@@ -1,94 +1,116 @@
 {% load static %}
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookNest Library - Admin Dashboard</title>
-
-        <link rel="stylesheet" href="{% static 'admin_home.css' %}">
+    <link rel="stylesheet" href="{% static 'admin_home.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
-        <nav>
-    <h2 class="logo">📚 BookNest Library</h2>
-   
-   <ul>
 
-    <a  class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a> 
-    <a   class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a> 
-    <a class="nav-link" href="{% url 'view_books_admin' %}"><li>View Books</li></a>
-    <a class="nav-link" href="{% url 'view_books_admin' %}"><li>Edit Books</li></a>
-    <form method="POST" action="{% url 'logout' %}" style="display: inline;">
-        {% csrf_token %}
-        <button type="submit">Logout</button>
-    </form>
+    <div class="animated-bg"></div>
+
+    <nav class="glass-nav">
+        <h2 class="logo"><i class="fas fa-terminal"></i> BookNest <span class="brand-accent">Core</span></h2>
+        <ul class="nav-menu">
+            <li><a class="nav-link active" href="{% url 'admin_home' %}"><i class="fas fa-cubes"></i> Home</a></li>
+            <li><a class="nav-link" href="{% url 'admin_add_book' %}"><i class="fas fa-plus"></i> Add Book</a></li>
+            <li><a class="nav-link" href="{% url 'view_books_admin' %}"><i class="fas fa-book-open"></i> View Books</a></li>
+            <li>
+                <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn"><i class="fas fa-power-off"></i> Log Out</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <header class="glass-header">
+            <div class="header-content">
+                <h1>System Administrator <span class="status-badge">Active</span></h1>
+                <p>Welcome to the <strong>BookNest Library Management System</strong>. This platform allows administrators to manage the library's collection efficiently, ensuring that users can easily discover and borrow books.</p>
+            </div>
+        </header>
+
+        <section class="dashboard-section">
+            <h2 class="section-title"><i class="fas fa-shield-alt"></i> Command Center</h2>
+            <p class="section-desc">Execute system-wide modifications and database updates.</p>
+
+            <div class="cards-grid">
+                <div class="tilt-card" data-tilt>
+                    <div class="card-inner">
+                        <div class="card-icon"><i class="fas fa-folder-plus"></i></div>
+                        <h3>Add New Book</h3>
+                        <p>Insert new books into the library database including title, author, category and description.</p>
+                        <a href="{% url 'admin_add_book' %}" class="btn-3d">
+                            <span>Initialize Insertion <i class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="tilt-card" data-tilt>
+                    <div class="card-inner">
+                        <div class="card-icon"><i class="fas fa-database"></i></div>
+                        <h3>View All Books</h3>
+                        <p>Browse all available books currently listed in the library, filter and inspect details.</p>
+                        <a href="{% url 'view_books_admin' %}" class="btn-3d secondary">
+                            <span>Launch Explorer <i class="fas fa-arrow-right"></i></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-section about-section">
+            <h2><i class="fas fa-info-circle"></i> System Overview</h2>
+            <p>
+                <strong>BookNest</strong> is a high-performance online library core designed to optimize reading discovery and manage lending pipelines seamlessly. The infrastructure ensures distributed data accessibility in a clean, secure digital interface.
+            </p>
+        </section>
+    </main>
+
+    <script src="{% static 'authScript.js' %}">
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.tilt-card');
+
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const cardRect = card.getBoundingClientRect();
+            
+            // حساب مكان الماوس بالظبط جوة الكارت
+            const x = e.clientX - cardRect.left;
+            const y = e.clientY - cardRect.top;
+            
+            // تحويل الإحداثيات لنسب مئوية من السنتر
+            const midCardX = cardRect.width / 2;
+            const midCardY = cardRect.height / 2;
+            
+            // حساب زاوية الميل (أقصى ميل 15 درجة)
+            const angleX = -(y - midCardY) / (cardRect.height / 2) * 15;
+            const angleY = (x - midCardX) / (cardRect.width / 2) * 15;
+            
+            // تطبيق الـ 3D ماتركس السحرية
+            card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+
+        // ارجاع الكارت لوضعه الأصلي لما الماوس يخرج
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+            card.style.transition = 'transform 0.5s ease';
+        });
+
+        card.addEventListener('mouseenter', () => {
+            card.style.transition = 'none';
+        });
+    });
+});
+    </script>
+
     
-</ul>
-</nav>
-
-
-
-<header>
-    <h1>Welcome Admin 👨‍💼</h1>
-    <p>
-        Welcome to the <strong>BookNest Library Management System</strong>.  
-        This platform allows administrators to manage the library's collection efficiently,
-        ensuring that users can easily discover and borrow books.
-    </p>
-</header>
-
-<hr>
-
-
-<section>
-    <h2>Admin Control Panel</h2>
-
-    <p>From here you can manage the entire library system.</p>
-
-    <ul>
-        <li>
-            <strong>Add New Book</strong><br>
-            Insert new books into the library database including title, author, category and description.
-            <br><br>
-            <a href="{% url 'admin_add_book' %}">
-                <button>Add Book</button>
-            </a>
-        </li>
-
-        <br>
-
-        <li>
-            <strong>View All Books</strong><br>
-            Browse all available books currently listed in the library.
-            <br><br>
-            <a href="{% url 'view_books_admin' %}">
-                <button>View Books</button>
-            </a>
-        </li>
-
-        <br>
-
-    </ul>
-</section>
-
-<hr>
-
-
-<section>
-    <h2>About BookNest</h2>
-    <p>
-        <strong>BookNest</strong> is a simple online library system designed to help readers
-        explore books and manage borrowing easily.  
-        Our goal is to make knowledge accessible and organized through a clean and
-        user-friendly digital library experience.
-    </p>
-</section>
-
-<hr>
-<script src="{% static 'authScript.js' %}"></script>
-
 </body>
-
 </html>

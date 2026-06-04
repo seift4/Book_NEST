@@ -1,91 +1,144 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="{% static style_viewbook.css %}">
-        <title>View Books</title>
-    </head>
-    <body>
-    
-        <nav>
-    <h2 class="logo">📚 BookNest Library</h2>
-   
-   <ul>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookNest - View Books (Admin UI)</title>
+    <style>
+        /* تنسيق رأس الصفحة المتجاوب المرن */
+.section-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 25px;
+}
+.section-header-text { flex: 1; }
 
-    <a  class="nav-link" href="{% url 'admin_home' %}"><li>Home</li></a> 
-    <a   class="nav-link" href="{% url 'admin_add_book' %}"><li>Add Book</li></a> 
-    <a   class="nav-link" href="{% url 'view_books_admin' %}"><li>View Books</li></a>
-    <a class="nav-link out" href="#" onclick="logout()">Logout</a>
-    
-</ul>
-</nav>
-        <h2>Books List</h2>
-        <div id="Books">
+/* زر إضافة أصل جديد العلوي الفاخر */
+.btn-global-add {
+    text-decoration: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background: transparent;
+    color: var(--secondary-glow);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.btn-global-add:hover {
+    background: var(--secondary-glow);
+    color: #000;
+    box-shadow: 0 0 25px rgba(251, 191, 36, 0.3);
+    transform: translateY(-2px);
+}
 
-        </div>
-        <br>
-        <a href="{% url 'admin_add_book' %}" >
-            <button class="btn">Add New Book</button>
-        </a>
+/* إلغاء الروابط القديمة */
+br, .btn { display: none; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
 
+    <div class="animated-bg"></div>
 
-        <script src="{% static 'authScript.js' %}"></script>
-        <script>
-            if (!localStorage.getItem("Books")) {
-    let books = [
-        {
-            title: "Harry Potter and the chamber of secrets",
-            image: "part2.jpg"
-        },
-        {
-            title: "Harry Potter and the prisoner of Azkaban",
-            image: "part3.jpg"
-        },
-        {
-            title: "Harry Potter and the Goblet of fire",
-            image: "part4.jpg"
-        },
-        {
-            title: "Harry Potter and the Half-blood prince",
-            image: "part5.jpg"
-        },
-        {
-            title: "Harry Potter and the deathly hallows",
-            image: "part6.jpg"
+    <nav class="glass-nav">
+        <h2 class="logo"><i class="fas fa-terminal"></i> BookNest <span class="brand-accent">Core</span></h2>
+        <ul class="nav-menu">
+            <li><a class="nav-link" href="{% url 'admin_home' %}"><i class="fas fa-cubes"></i> Dashboard</a></li>
+            <li><a class="nav-link" href="{% url 'admin_add_book' %}"><i class="fas fa-plus"></i> Add Book</a></li>
+            <li><a class="nav-link active" href="{% url 'view_books_admin' %}"><i class="fas fa-book-open"></i> View Books</a></li>
+            <li>
+                <form method="POST" action="{% url 'logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn"><i class="fas fa-power-off"></i> Terminate</button>
+                </form>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="container">
+        <header class="section-header-flex">
+            <div class="section-header-text">
+                <h2 class="section-title"><i class="fas fa-database"></i> Asset Repository</h2>
+                <p class="section-desc">Manage, mutate, or purge local storage book matrix arrays dynamically.</p>
+            </div>
+            <a href="{% url 'admin_add_book' %}" class="btn-global-add">
+                <i class="fas fa-plus-circle"></i> Add New Asset
+            </a>
+        </header>
+
+        <div id="Books" class="cards-grid"></div>
+    </main>
+
+    <script src="{% static 'authScript.js' %}"></script>
+    <script>
+        // التحقق من حالة الأحرف وتوحيد المفتاح لـ 'books' لمنع حدوث تضارب
+        if (!localStorage.getItem("books")) {
+            let initialBooks = [
+                { title: "Harry Potter and the chamber of secrets", image: "part2.jpg" },
+                { title: "Harry Potter and the prisoner of Azkaban", image: "part3.jpg" },
+                { title: "Harry Potter and the Goblet of fire", image: "part4.jpg" },
+                { title: "Harry Potter and the Half-blood prince", image: "part5.jpg" },
+                { title: "Harry Potter and the deathly hallows", image: "part6.jpg" }
+            ];
+            localStorage.setItem("books", JSON.stringify(initialBooks));
         }
-    ];
 
-    localStorage.setItem("books", JSON.stringify(books));
-}
+        let container = document.getElementById("Books");
+        let books = JSON.parse(localStorage.getItem("books")) || [];
 
-let container = document.getElementById("Books");
-let books = JSON.parse(localStorage.getItem("books")) || [];
+        // بناء كروت الأصول السيبرانية ديناميكياً
+        books.forEach(function(book, index) {
+            let div = document.createElement("div");
+            div.className = "book-asset-card"; // تم تحديث الكلاس ليتطابق مع الـ CSS الموحد الفخم
 
-books.forEach(function(book ,index) {
-    let div = document.createElement("div");
-    div.className = "harry_potter";
+            // مسار الصور الثابتة الافتراضي في ديانجو
+            let baseStaticPath = "/static/images/";
 
-    div.innerHTML = `
-        <img src="{% static 'images/' %}{{ book.image }}">
-        <p>${book.title}</p>
-        <button  class="btn" , onclick="editBook(${index})">Edit </button>
-        <button  class="btn" , onclick="deleteBook(${index})">Delete</button>
-    `;
+            div.innerHTML = `
+                <div class="card-inner">
+                    <div class="book-img-wrapper">
+                        <img src="${baseStaticPath}${book.image}" alt="${book.title}" onerror="this.src='${baseStaticPath}no_cover_available.png'">
+                    </div>
+                    <div class="book-meta-content">
+                        <h3>${book.title}</h3>
+                        <span class="author-tag"><i class="fas fa-user-feather"></i> JavaScript Node</span>
+                        <span class="category-tag"><i class="fas fa-tags"></i> Local Storage Asset</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-action btn-edit" onclick="editBook(${index})">
+                            <i class="fas fa-sliders-h"></i> Edit
+                        </button>
+                        <button class="btn-action btn-delete" onclick="deleteBook(${index})">
+                            <i class="fas fa-trash-alt"></i> Delete
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+        });
 
-    container.appendChild(div);
-});
-function deleteBook(index) {
-    let books = JSON.parse(localStorage.getItem("books"));
+        function deleteBook(index) {
+            let books = JSON.parse(localStorage.getItem("books"));
+            books.splice(index, 1); 
+            localStorage.setItem("books", JSON.stringify(books));
+            location.reload();
+        }
 
-    books.splice(index, 1); 
-
-    localStorage.setItem("books", JSON.stringify(books));
-
-    location.reload();
-}
-function editBook(index) {
-    window.location.href = "{% url 'edit_book' 0 %}".replace('0', index);
-}
-        </script>
-    </body>
+        function editBook(index) {
+            window.location.href = "{% url 'edit_book' 0 %}".replace('0', index);
+        }
+    </script>
+</body>
 </html>

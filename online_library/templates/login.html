@@ -1,57 +1,310 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Log-in</title>
-    <link rel="stylesheet" href="{% static 'style1.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookNest - Log-in</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap');
+
+:root {
+    --bg-gradient: linear-gradient(135deg, #070a12 0%, #020408 100%);
+    --glass-bg: rgba(255, 255, 255, 0.015);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    
+    --primary-glow: #059669;    /* الزمردي */
+    --secondary-glow: #fbbf24;  /* الذهبي السيبراني */
+    --error-red: #ef4444;
+    
+    --text-main: #f3f4f6;
+    --text-muted: #6b7280;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+body {
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* ==========================================================================
+   الـ Navbar الفاخر والموحد
+   ========================================================================== */
+.glass-nav {
+    position: fixed;
+    top: 25px; left: 50%;
+    transform: translateX(-50%);
+    width: 92%; max-width: 1200px;
+    background: rgba(3, 7, 18, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 18px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+
+.logo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #fff;
+}
+.brand-accent {
+    color: var(--secondary-glow);
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 15px;
+}
+
+.nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+.nav-link:hover, .nav-link.active {
+    color: var(--primary-glow);
+    background: rgba(5, 150, 105, 0.05);
+    border-color: rgba(5, 150, 105, 0.2);
+}
+
+/* الأضواء الخلفية الخافتة */
+.animated-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+}
+.animated-bg::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: var(--primary-glow);
+    top: 20%; left: 15%;
+    filter: blur(180px);
+    opacity: 0.1;
+}
+
+/* ==========================================================================
+   تنسيق كارت تسجيل الدخول الزجاجي
+   ========================================================================== */
+.auth-container {
+    width: 100%;
+    max-width: 450px;
+    padding: 20px;
+    margin-top: 60px; /* لتجنب التداخل مع الناف بار */
+    z-index: 10;
+}
+
+.auth-card {
+    background: rgba(10, 15, 26, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.auth-icon {
+    font-size: 2rem;
+    color: var(--secondary-glow);
+    margin-bottom: 15px;
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+}
+
+.auth-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.auth-header p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* تنسيق المدخلات */
+.auth-form .input-group {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group label {
+    font-size: 0.8rem;
+    color: var(--text-main);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.input-group label i {
+    color: var(--primary-glow);
+    margin-right: 6px;
+}
+
+.input-group input {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    color: #fff;
+    font-size: 0.9rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+/* تأثير الإضاءة الفاجر عند الكتابة داخل الحقول */
+.input-group input:focus {
+    border-color: var(--primary-glow);
+    background: rgba(5, 150, 105, 0.02);
+    box-shadow: 0 0 15px rgba(5, 150, 105, 0.15);
+}
+
+/* أزرار التحكم السفلية */
+.form-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.btn-action {
+    flex: 1;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.btn-reset {
+    background: transparent;
+    color: var(--text-muted);
+    border-color: var(--glass-border);
+}
+.btn-reset:hover {
+    background: rgba(255,255,255,0.03);
+    color: #fff;
+}
+
+.btn-submit {
+    background: var(--primary-glow);
+    color: #000;
+}
+.btn-submit:hover {
+    box-shadow: 0 0 25px rgba(5, 150, 105, 0.4);
+    transform: translateY(-2px);
+}
+
+/* تنسيق رايات بنرات الخطأ (Errors) */
+.error-banner {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 12px;
+    border-radius: 8px;
+    color: var(--error-red);
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+}
+
+.field-error {
+    color: var(--error-red);
+    font-size: 0.75rem;
+    margin-top: 6px;
+}
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
 <body>
-<nav>
-    <h2 class="logo">📚 BookNest Library</h2>
-    <ul>
-        <a class="nav-link" href="{% url 'index' %}"><li>Home</li></a> 
-        <a class="nav-link" href="{% url 'login' %}"><li>Login</li></a> 
-        <a class="nav-link" href="{% url 'signup' %}"><li>Sign Up</li></a>
-    </ul>
-</nav>
 
-    <form method="POST" action="{% url 'login' %}">
-        {% csrf_token %}
-        
-        {% if form.non_field_errors %}
-            <div class="error">
-                {% for error in form.non_field_errors %}
-                    <p>{{ error }}</p>
-                {% endfor %}
+    <div class="animated-bg"></div>
+
+    <nav class="glass-nav">
+        <h2 class="logo"><i class="fas fa-terminal"></i> BookNest <span class="brand-accent">Core</span></h2>
+        <ul class="nav-menu">
+            <li><a class="nav-link" href="{% url 'index' %}"><i class="fas fa-cubes"></i> Home</a></li>
+            <li><a class="nav-link active" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            <li><a class="nav-link" href="{% url 'signup' %}"><i class="fas fa-user-plus"></i> Sign Up</a></li>
+        </ul>
+    </nav>
+
+    <main class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <i class="fas fa-lock-open auth-icon"></i>
+                <h2>User Authentication</h2>
+                <p>Enter your credentials to access the library core.</p>
             </div>
-        {% endif %}
-        
-        <div>
-            <label for="id_username">Username:</label>
-            <input type="text" name="username" id="id_username" placeholder="Username" required>
-            {% if form.username.errors %}
-                <div class="error">{{ form.username.errors.0 }}</div>
-            {% endif %}
-        </div>
 
-        <br>
+            <form method="POST" action="{% url 'login' %}" class="auth-form">
+                {% csrf_token %}
+                
+                {% if form.non_field_errors %}
+                    <div class="error-banner">
+                        {% for error in form.non_field_errors %}
+                            <p><i class="fas fa-exclamation-triangle"></i> {{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                
+                <div class="input-group">
+                    <label for="id_username"><i class="fas fa-user"></i> Username</label>
+                    <input type="text" name="username" id="id_username" placeholder="Enter username" required>
+                    {% if form.username.errors %}
+                        <span class="field-error"><i class="fas fa-info-circle"></i> {{ form.username.errors.0 }}</span>
+                    {% endif %}
+                </div>
 
-        <div>
-            <label for="id_password">Password:</label>
-            <input type="password" name="password" id="id_password" placeholder="Password" required>
-            {% if form.password.errors %}
-                <div class="error">{{ form.password.errors.0 }}</div>
-            {% endif %}
+                <div class="input-group">
+                    <label for="id_password"><i class="fas fa-key"></i> Password</label>
+                    <input type="password" name="password" id="id_password" placeholder="Enter password" required>
+                    {% if form.password.errors %}
+                        <span class="field-error"><i class="fas fa-info-circle"></i> {{ form.password.errors.0 }}</span>
+                    {% endif %}
+                </div>
+                
+                <div class="form-actions">
+                    <button type="reset" class="btn-action btn-reset">Reset</button>
+                    <button type="submit" class="btn-action btn-submit">Sign In</button>
+                </div>
+            </form>
         </div>
-        
-        <br>
-
-        <div>
-            <button type="reset">Reset</button>
-            <button type="submit">Login</button>
-        </div>
-    </form>
+    </main>
 
 </body>
 </html>

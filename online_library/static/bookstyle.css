@@ -1,3 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Sora:wght@300;400;600;700&display=swap');
+
+:root {
+    --bg-gradient: linear-gradient(135deg, #070a12 0%, #020408 100%);
+    --glass-bg: rgba(255, 255, 255, 0.015);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    
+    --primary-glow: #059669;    /* الزمردي للمستخدم */
+    --secondary-glow: #fbbf24;  /* الذهبي */
+    
+    --text-main: #f3f4f6;
+    --text-muted: #6b7280;
+}
 
 * {
     margin: 0;
@@ -6,164 +19,291 @@
 }
 
 body {
-    font-family: 'Sora', sans-serif;
-
-    color: #1D293F;
-    padding: 20px;
-    width: 100%;
+    background: var(--bg-gradient);
+    color: var(--text-main);
     min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+    font-family: 'Sora', sans-serif; /* الخط الأساسي للمحتوى */
 }
 
-.bottom-links a {
-    color: #2643D1;
-    text-decoration: none;
-    margin-right: 15px;
-    font-size: 20px;
-    font-weight: 500;
-}
-
-.bottom-links a:hover {
-    text-decoration: underline;
-    color: #E0E8F5;
-}
-
-/* -------------------- Nav -------------------- */
-nav {
-    background-color: #ffffff;
-    color: #1D293F;
+/* ==========================================================================
+   الـ Navbar الفاخر والموحد
+   ========================================================================== */
+.glass-nav {
+    position: fixed;
+    top: 25px; left: 50%;
+    transform: translateX(-50%);
+    width: 92%; max-width: 1200px;
+    background: rgba(3, 7, 18, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 18px 35px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    border-bottom: 1px solid #ddd;
+    z-index: 1000;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
 }
 
-/* Logo */
 .logo {
-    margin: 0;
-    font-size: 20px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+}
+.brand-accent {
+    color: var(--secondary-glow);
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
 }
 
-/* Nav Links Container */
-nav ul {
-        position: absolute;
-    right: 30px;
-    list-style: none;
+.nav-menu {
     display: flex;
-    gap: 20px;
-    margin: 0;
-    padding: 0;
-}
-
-/* Links */
-.nav-link {
-
-    text-decoration: none;
-    color: #1D293F;
-    font-size: 14px;
-    transition: 0.3s;
-}
-
-/* Remove default li style */
-nav li {
-        font-size: 15px;
+    align-items: center;
     list-style: none;
+    gap: 15px;
 }
 
-.nav-link:not(.out):hover {
-  /* ضع التنسيقات التي تريدها هنا */
-  color: blue; /* مثال لتغيير اللون */
-  text-decoration: underline; 
+.nav-link {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+.nav-link:hover, .nav-link.active {
+    color: var(--primary-glow);
+    background: rgba(5, 150, 105, 0.05);
+    border-color: rgba(5, 150, 105, 0.2);
 }
 
-
-.out{
-    position: relative;
-    bottom: 3px;
-    background-color: #1D293F;
-    padding: 6px;
-    color: #ffffff;
-    border-radius: 12px;
-
+.logout-btn {
+    font-family: 'JetBrains Mono', monospace;
+    background: transparent;
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s;
 }
-.out:hover{
-    background-color: #ffffff;
-    padding: 6px;
-    color: #1D293F;
-}
-
-
-
-
-
-
-
-/* -------------------- Headers -------------------- */
-h1 {
-     color: #1D293F;
-    margin: 20px 0;
-    font-size: 36px;
-    text-align: center;
+.logout-btn:hover {
+    background: #ef4444;
+    color: #fff;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+    transform: translateY(-2px);
 }
 
+/* أضواء الخلفية السحرية */
+.animated-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+}
+.animated-bg::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: var(--primary-glow);
+    top: -10%; left: 50%;
+    transform: translateX(-50%);
+    filter: blur(220px);
+    opacity: 0.07;
+}
 
+/* ==========================================================================
+   حاوية وتخطيط كارت تفاصيل الكتاب الـ 3D
+   ========================================================================== */
+.details-container {
+    width: 100%;
+    max-width: 950px;
+    padding: 20px;
+    margin-top: 110px;
+    margin-bottom: 40px;
+    z-index: 10;
+}
 
-/* -------------------- Table  -------------------- */
-table {
+.asset-card {
+    background: rgba(10, 15, 26, 0.55);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 45px;
+    box-shadow: 0 40px 90px rgba(0, 0, 0, 0.8);
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+}
+
+.asset-layout {
+    display: flex;
+    gap: 45px;
+    align-items: flex-start;
+}
+
+/* غلاف الكتاب النيوني */
+.asset-cover-wrapper {
+    flex: 0 0 280px;
+    transform: translateZ(30px); /* دفع الغلاف للأمام لإعطاء تباين عمق 3D */
+}
+
+.book-cover-img {
+    width: 100%;
+    height: auto;
+    min-height: 380px;
+    object-fit: cover;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 30px rgba(5, 150, 105, 0.05);
+    transition: box-shadow 0.4s;
+}
+.asset-card:hover .book-cover-img {
+    box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 40px rgba(5, 150, 105, 0.15);
+}
+
+/* ستايل لوحة المعلومات الجانبية */
+.asset-info-wrapper {
+    flex: 1;
+    transform: translateZ(50px);
+}
+
+.asset-header {
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 20px;
+}
+
+.meta-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--secondary-glow);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+#bookTitle {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -1px;
+    line-height: 1.2;
+}
+
+/* تحويل الـ Table التقليدي إلى لوحة فخمة */
+.details-table {
     width: 100%;
     border-collapse: collapse;
-    background: #ffffff;
-    border-radius: 8px;
-    overflow: hidden;
-    margin: 20px 0;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    margin-bottom: 35px;
 }
 
-th, td {
-    padding: 15px;
+.details-table tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+.details-table tr:last-child {
+    border-bottom: none;
+}
+
+.details-table th {
+    font-family: 'JetBrains Mono', monospace;
     text-align: left;
-    border-bottom: 1px solid  #ffffff;
-}
-
-th {
-    background-color:  #1D293F;
-    color: #ffffff;
-    font-size: 18px;
+    padding: 16px 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-weight: 600;
+    width: 150px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+}
+.details-table th i {
+    color: var(--primary-glow);
+    margin-right: 8px;
+    font-size: 0.9rem;
 }
 
-td {
-    font-size: 18px;
-    font-weight: 300;
-    border: 1px solid  #1D293F;
+.details-table td {
+    padding: 16px 0;
+    color: #f3f4f6;
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 1.6;
 }
 
-/* -------------------- Img & Button -------------------- */
-img {
-    border-radius: 5px;
-    border: 2px solid #2643D1;
-    transition: transform 0.2s;
+/* مؤشر حالة التوفر */
+.status-indicator {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    background: rgba(251, 191, 36, 0.08);
+    color: var(--secondary-glow);
+    padding: 4px 14px;
+    border-radius: 50px;
+    border: 1px solid rgba(251, 191, 36, 0.15);
 }
 
-img:hover {
-    transform: scale(1.02);
+#bookDescription {
+    color: #d1d5db;
 }
 
-button {
-    background-color: #2643D1;
-     color: #ffffff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
+/* زر الاستعارة الفاخر */
+.asset-actions {
+    margin-top: 20px;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 16px 30px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
     cursor: pointer;
-    font-family: 'Sora', sans-serif;
-    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid var(--primary-glow);
+    background: var(--primary-glow);
+    color: #000;
+    font-family: 'JetBrains Mono', monospace;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
-button:hover {
-    color: #ffffff;
-    background-color: #1a2ea3;
+.btn-submit:hover {
+    box-shadow: 0 0 35px rgba(5, 150, 105, 0.4);
+    transform: translateY(-3px) translateZ(15px);
 }
 
-/* ---------------------------------------- */
+/* الغاء الخطوط القديمة */
+hr { display: none; }
+ins { text-decoration: none; }
+
+/* الاستجابة للهواتف المحمولة لجعل الغلاف بالأعلى تلقائياً */
+@media (max-width: 768px) {
+    .asset-layout {
+        flex-direction: column;
+        align-items: center;
+    }
+    .asset-cover-wrapper {
+        flex: 0 0 auto;
+        width: 220px;
+    }
+    .book-cover-img {
+        min-height: auto;
+    }
+}

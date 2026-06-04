@@ -15,21 +15,33 @@ function fetchBooksFromAPI() {
     fetch("/api/books/")
         .then(response => response.json())
         .then(data => {
-            booksDatabase = data.map(book => ({
-                id: book.id,
-                title: book.title,
-                author: book.author,
-                category: book.category,
-                status: book.is_available ? "Available" : "Borrowed",
-                coverImage: book.image || "no_cover_available.png",
-                description: "No description available.",
-                isAdminBook: false
-            }));
+            booksDatabase = data.map(book => {
+                // معالجة رابط الصورة ديناميكياً بناءً على البيانات القادمة من السيرفر
+                var processedCover = "/static/images/no_cover_available.png";
+                if (book.image) {
+                    if (book.image.startsWith('http://') || book.image.startsWith('https://') || book.image.startsWith('/')) {
+                        processedCover = book.image;
+                    } else {
+                        processedCover = "/media/" + book.image;
+                    }
+                }
+
+                return {
+                    id: book.id,
+                    title: book.title,
+                    author: book.author,
+                    category: book.category,
+                    status: book.is_available ? "Available" : "Borrowed",
+                    coverImage: processedCover,
+                    description: "No description available.",
+                    isAdminBook: false
+                };
+            });
             displayAllBooks();
         })
         .catch(error => {
             console.error("Error fetching books:", error);
-            showMessage("Failed to load books from server.", "error");
+            showMessage("Failed to load books from server repository.", "error");
         });
 }
 
@@ -39,7 +51,10 @@ function displayAllBooks() {
 
 function handleSearch(event) {
     event.preventDefault(); 
-    var searchTerm = document.getElementById("searchInput").value;
+    var searchInput = document.getElementById("searchInput");
+    if (!searchInput) return false;
+    
+    var searchTerm = searchInput.value;
 
     if (searchTerm === "" || searchTerm.trim() === "") {
         showMessage("Please enter a search term!", "error");
@@ -89,29 +104,38 @@ function displayResults(books, searchTerm, searchType) {
 
     if (statsDiv) {
         if (searchTerm === "") {
-            statsDiv.innerHTML = "Showing all " + books.length + " books";
+            statsDiv.innerHTML = "Index Status: Showing " + books.length + " books";
         } else {
             statsDiv.innerHTML = "Found " + books.length + " result(s) for '" + searchTerm + "' in " + searchType;
         }
     }
 
     if (books.length === 0) {
-        container.innerHTML = "<p style='color:gray;'>No books to display</p>";
+        container.innerHTML = "<p class='no-results-msg'>No books to display</p>";
         return;
     }
 
     var htmlContent = "";
     for (var i = 0; i < books.length; i++) {
         var book = books[i];
-        var statusClass = (book.status === "Available") ? "status-available" : "status-borrowed";
+        var statusBadgeClass = (book.status === "Available") ? "badge-available" : "badge-borrowed";
 
         htmlContent += `
-            <div class="book-card">
-                <h4>📖 ${book.title}</h4>
-                <p><b>Author:</b> ${book.author}</p>
-                <p><b>Category:</b> ${book.category}</p>
-                <p><b>Status:</b> <span class="${statusClass}">${book.status}</span></p>
-                <button onclick="viewBook(${book.id})">View Details</button>
+            <div class="cyber-book-card">
+                <div class="book-cover-frame">
+                    <img src="${book.coverImage}" alt="${book.title}" onerror="this.src='/static/images/no_cover_available.png'">
+                </div>
+                <div class="book-info-block">
+                    <h4>${book.title}</h4>
+                    <span class="info-tag"><i class="fas fa-user-feather"></i> ${book.author}</span>
+                    <span class="info-tag"><i class="fas fa-tags"></i> ${book.category}</span>
+                    <div class="status-wrapper">
+                        <span class="status-indicator ${statusBadgeClass}">${book.status}</span>
+                    </div>
+                </div>
+                <button class="btn-view-details" onclick="viewBook(${book.id})">
+                    <i class="fas fa-expand-arrows-alt"></i> Access Record
+                </button>
             </div>
         `;
     }
@@ -138,11 +162,13 @@ function showMessage(message, type) {
     alertDiv.innerHTML = message;
     alertDiv.className = "alert " + type;
     alertDiv.style.display = "block";
-    setTimeout(function() { alertDiv.style.display = "none"; }, 3000);
+    setTimeout(function() { alertDiv.style.display = "none"; }, 4000);
 }
 
 function addToHistory(term, type) {
-    if (term === "") return;
+    if (term === "" || term.trim() === "") return;
+    if (searchHistory.length > 0 && searchHistory[0].word === term && searchHistory[0].searchBy === type) return;
+
     searchHistory.unshift({ word: term, searchBy: type, date: new Date().toLocaleString() });
     if (searchHistory.length > 5) searchHistory.pop();
     localStorage.setItem("mySearchHistory", JSON.stringify(searchHistory));
@@ -158,20 +184,24 @@ function displayHistory() {
     var historyDiv = document.getElementById("historyList");
     if (!historyDiv) return;
     if (searchHistory.length === 0) {
-        historyDiv.innerHTML = "<span style='color:gray;'>No recent searches</span>";
+        historyDiv.innerHTML = "<span class='no-history-text'>No recent searches</span>";
         return;
     }
     var html = "";
     for (var i = 0; i < searchHistory.length; i++) {
         var item = searchHistory[i];
-        html += '<div class="history-item" onclick="repeatSearch(\'' + item.word + '\', \'' + item.searchBy + '\')">';
-        html += item.word + " (" + item.searchBy + ")</div>";
+        html += `
+            <div class="history-tag" onclick="repeatSearch('${item.word.replace(/'/g, "\\'")}', '${item.searchBy}')">
+                <i class="fas fa-code-branch"></i> ${item.word} <span class="history-type-label">${item.searchBy}</span>
+            </div>
+        `;
     }
     historyDiv.innerHTML = html;
 }
 
 function repeatSearch(term, type) {
-    document.getElementById("searchInput").value = term;
+    var searchInput = document.getElementById("searchInput");
+    if (searchInput) searchInput.value = term;
     var radios = document.getElementsByName("search_by");
     var typeMap = {"All":0, "Title":1, "Author":2, "Category":3};
     var index = typeMap[type];
