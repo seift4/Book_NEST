@@ -1,0 +1,131 @@
+/* General body styling */
+body {
+    font-family: 'Sora', Arial, sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar */
+nav {
+    background-color: #ffffff;
+    color: #1D293F;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Logo */
+.logo {
+    margin: 0;
+    font-size: 20px;
+}
+
+/* Nav Links Container */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Links */
+.nav-link {
+    text-decoration: none;
+    color: #1D293F;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+/* Remove default li style */
+nav li {
+    font-size: 15px;
+    list-style: none;
+}
+
+.nav-link:not(.out):hover {
+    color: #2643D1;
+    text-decoration: underline;
+}
+
+/* Logout button */
+.out {
+    position: relative;
+    bottom: 3px;
+    background-color: #1D293F;
+    padding: 6px 12px;
+    color: #ffffff;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+.out:hover {
+    background-color: #ffffff;
+    color: #1D293F;
+    border: 1px solid #1D293F;
+}
+
+/* Headings */
+h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1D293F;
+    margin: 20px;
+}
+
+/* Books grid */
+#books {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 30px;
+    padding: 25px;
+}
+
+/* Book card */
+.book-card {
+    background: #ffffff;
+    padding: 20px;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 420px;   
+    transition: 0.3s;
+}
+.book-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+.book-card img {
+    width: 100%;
+    height: 240px;       
+    object-fit: contain;
+    border-radius: 8px;
+}
+.book-card p {
+    color: #1D293F;
+    margin: 10px 0;
+    font-size: 16px;     
+}
+
+/* Buttons */
+.book-card a {
+    display: inline-block;
+    background-color: #1D293F;
+    color: #ffffff;
+    padding: 12px 20px;   
+    border-radius: 8px;
+    font-size: 14px;
+    margin: 10px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.book-card a:hover {
+    background-color: #2643D1;
+    color: #ffffff;
+}
+

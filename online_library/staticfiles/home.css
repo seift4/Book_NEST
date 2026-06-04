@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&display=swap');
+
+:root {
+    --bg-gradient: linear-gradient(135deg, #070a12 0%, #020408 100%);
+    --glass-bg: rgba(255, 255, 255, 0.015);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    
+    /* الزمردي والذهبي السيبراني */
+    --primary-glow: #059669;    
+    --secondary-glow: #fbbf24;  
+    
+    --text-main: #f3f4f6;
+    --text-muted: #6b7280;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+body {
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* الأضواء الخلفية المضيئة */
+.animated-bg {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+.animated-bg::before, .animated-bg::after {
+    content: '';
+    position: absolute;
+    width: 450px; height: 450px;
+    border-radius: 50%;
+    background: var(--primary-glow);
+    filter: blur(160px);
+    opacity: 0.12;
+    animation: float 14s infinite alternate ease-in-out;
+}
+.animated-bg::after {
+    background: var(--secondary-glow);
+    right: 5%; bottom: 5%;
+    animation-delay: -7s;
+    opacity: 0.08;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(80px, 50px) scale(1.2); }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 140px auto 50px;
+    padding: 0 20px;
+}
+
+/* الناف بار الهولوغرافي الشفاف */
+.glass-nav {
+    position: fixed;
+    top: 25px; left: 50%;
+    transform: translateX(-50%);
+    width: 92%; max-width: 1200px;
+    background: rgba(3, 7, 18, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 18px 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+
+.logo {
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #fff;
+}
+.brand-accent {
+    color: var(--secondary-glow);
+    text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 15px;
+}
+
+.nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+}
+.nav-link:hover, .nav-link.active {
+    color: var(--primary-glow);
+    background: rgba(5, 150, 105, 0.05);
+    border-color: rgba(5, 150, 105, 0.2);
+}
+
+/* الهيدر وقسم الترحيب */
+.glass-header {
+    background: linear-gradient(180deg, rgba(255,255,255,0.01) 0%, rgba(255,255,255,0) 100%);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 45px;
+    margin-bottom: 40px;
+}
+.glass-header h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+}
+.status-badge {
+    font-size: 0.8rem;
+    background: rgba(251, 191, 36, 0.1);
+    color: var(--secondary-glow);
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    padding: 4px 12px;
+    border-radius: 50px;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+.glass-header p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.8; max-width: 900px; margin-bottom: 15px; }
+
+.header-actions {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+}
+
+/* أزرار الـ 3D الفخمة */
+.btn-3d {
+    display: inline-block;
+    text-decoration: none;
+    padding: 14px 28px;
+    background: transparent;
+    color: var(--primary-glow);
+    border: 1px solid var(--primary-glow);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+.btn-3d.secondary {
+    color: var(--secondary-glow);
+    border-color: var(--secondary-glow);
+}
+
+.btn-3d:hover {
+    background: var(--primary-glow);
+    color: #000;
+    box-shadow: 0 0 25px rgba(5, 150, 105, 0.4);
+    transform: translateY(-3px);
+}
+.btn-3d.secondary:hover {
+    background: var(--secondary-glow);
+    color: #000;
+    box-shadow: 0 0 25px rgba(251, 191, 36, 0.4);
+}
+
+/* سيكشن الميزات المطور */
+.dashboard-section { margin-bottom: 60px; }
+.section-title { font-size: 1.7rem; margin-bottom: 8px; font-weight: 700; color: #fff;}
+.section-title i { color: var(--primary-glow); margin-right: 10px;}
+.section-desc { color: var(--text-muted); margin-bottom: 35px; font-size: 0.9rem; }
+
+/* شبكة الكروت الـ 3D المكونة من 3 أعمدة متناسقة */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+/* الكروت والتأثيرات التفاعلية */
+.tilt-card {
+    background: rgba(10, 15, 26, 0.45);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 40px;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+    transition: border-color 0.4s, box-shadow 0.4s;
+}
+.tilt-card:hover {
+    border-color: rgba(5, 150, 105, 0.3);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* تدرج الألوان المتبادل عبر الـ Icons */
+.tilt-card:nth-child(1) .card-icon { color: var(--primary-glow); }
+.tilt-card:nth-child(2) .card-icon { color: var(--secondary-glow); }
+.tilt-card:nth-child(3) .card-icon { color: #3b82f6; /* لون أزرق إضافي للموازنة الجمالية */ }
+
+.card-inner { transform: translateZ(50px); }
+.card-icon { font-size: 2.3rem; margin-bottom: 25px; }
+.tilt-card h3 { font-size: 1.25rem; margin-bottom: 15px; font-weight: 600; color: #fff; }
+.tilt-card p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.7; }
+
+/* فوتر الـ About */
+.glass-section {
+    background: rgba(255,255,255,0.005);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 35px;
+}
+.glass-section h2 { margin-bottom: 15px; font-size: 1.3rem; color: #fff;}
+.glass-section p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; }
+
+hr { display: none; }
