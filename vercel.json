@@ -11,11 +11,5 @@
       "src": "/(.*)",
       "dest": "online_library/wsgi.py"
     }
-  ],
-  "build": {
-    "env": {
-      "PYTHONPATH": "online_library",
-      "DJANGO_SETTINGS_MODULE": "online_library.settings"
-    }
-  }
+  ]
 }
